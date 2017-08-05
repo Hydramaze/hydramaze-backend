@@ -73,4 +73,46 @@ public class PythonBusiness {
         return estimatedTime;
     }
 
+    private void processBuilder(String[] parameters) {
+        processBuilder = new ProcessBuilder(parameters);
+        processBuilder.directory(new File(getClass().getClassLoader().getResource("pyscripts").getPath()));
+    }
+
+    public void startProcess(String[] scriptName) {
+        try {
+            processBuilder(scriptName);
+            long startTime = System.nanoTime();
+            process = processBuilder.start();
+            process.waitFor();
+            estimatedTime = (System.nanoTime() - startTime) / 1000000000.0;
+            printProcessOutput();
+            System.out.println("Time elapsed: " + estimatedTime);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            process.destroy();
+        }
+    }
+
+    private void printProcessOutput(){
+        try {
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                    process.getInputStream()));
+
+            String line;
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+            }
+            in.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
