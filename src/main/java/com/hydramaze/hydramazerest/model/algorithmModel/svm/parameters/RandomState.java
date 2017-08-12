@@ -6,13 +6,11 @@ The seed of the pseudo random number generator to use when shuffling the data fo
 
 //TODO confirmar range de valores aceitáveis
 
-public class RandomState extends Parameter{
+public class RandomState extends SvmParameter {
     public RandomState() {
-        setValue("None");
-        setName("random_state");
+        super("None", "random_state");
     }
     public RandomState(float value) {
-        setValue(String.valueOf(value));
-        setName("random_state");
+        super(String.valueOf(value), "random_state");
     }
 }

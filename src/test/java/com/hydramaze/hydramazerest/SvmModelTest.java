@@ -9,7 +9,7 @@ public class SvmModelTest {
 
     @Test
     public void callScriptTest() {
-        SvmParameters svmParameters = new SvmParameters.SvcPropertiesBuilder().build();
+        SvmParameters svmParameters = new SvmParameters.SvmPropertiesBuilder().build();
         SvmModel svmModel = new SvmModel(svmParameters);
         String[] scriptName = svmModel.buildScriptCall();
 

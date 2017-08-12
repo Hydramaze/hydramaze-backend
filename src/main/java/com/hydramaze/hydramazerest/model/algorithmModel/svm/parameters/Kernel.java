@@ -8,16 +8,14 @@ Specifies the kernel type to be used in the algorithm.
   that matrix should be an array of shape (n_samples, n_samples).
  */
 
-public class Kernel extends Parameter{
+public class Kernel extends SvmParameter {
 
     public Kernel() {
-        setValue(KernelType.RBF.getValue());
-        setName("kernel");
+        super(KernelType.RBF.getValue(), "kernel");
     }
 
     public Kernel(KernelType kernelType) {
-        setValue(kernelType.getValue());
-        setName("kernel");
+        super(kernelType.getValue(), "kernel");
     }
 
     public enum KernelType{

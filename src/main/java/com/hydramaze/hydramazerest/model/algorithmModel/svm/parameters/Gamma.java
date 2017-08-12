@@ -7,14 +7,12 @@ If gamma is ‘auto’ then 1/n_features will be used instead.
 
 //TODO conferir range de valores aceitáveis
 
-public class Gamma extends Parameter{
+public class Gamma extends SvmParameter {
     public Gamma() {
-        setValue("auto");
-        setName("gamma");
+        super("auto", "gamma");
     }
-    public Gamma(String value) {
-        setValue(value);
-        setName("gamma");
+    public Gamma(float value) {
+        super(String.valueOf(value), "gamma");
     }
 
 }

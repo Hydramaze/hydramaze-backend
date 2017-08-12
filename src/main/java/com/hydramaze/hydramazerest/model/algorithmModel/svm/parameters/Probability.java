@@ -5,17 +5,11 @@ Whether to enable probability estimates.
 This must be enabled prior to calling fit, and will slow down that method.
  */
 
-public class Probability extends Parameter{
+public class Probability extends SvmParameter {
     public Probability() {
-        setValue("False");
-        setName("probability");
+        super("False", "probability");
     }
     public Probability(boolean value){
-        if(value){
-            setValue("True");
-        }else{
-            setValue("False");
-        }
-        setName("probability");
+        super(value ? "True" : "False", "probability");
     }
 }

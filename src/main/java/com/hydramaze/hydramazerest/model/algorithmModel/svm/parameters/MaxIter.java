@@ -4,13 +4,11 @@ int, optional (default=-1)
 Hard limit on iterations within solver, or -1 for no limit.
  */
 
-public class MaxIter extends Parameter{
+public class MaxIter extends SvmParameter {
     public MaxIter() {
-        setValue("-1");
-        setName("max_iter");
+        super("-1", "max_iter");
     }
     public MaxIter(int value){
-        setValue(String.valueOf(value));
-        setName("max_iter");
+        super(String.valueOf(value), "max_iter");
     }
 }

@@ -8,18 +8,13 @@ if enabled, may not work properly in a multithreaded context.
 
 //TODO confirmar necessidade
 
-public class Verbose extends Parameter{
-    public Verbose(boolean value) {
-        if(value){
-            setValue("True");
-        }else{
-            setValue("False");
-        }
-        setName("verbose");
-    }
+public class Verbose extends SvmParameter {
+
     public Verbose() {
-        setValue("False");
-        setName("verbose");
+        super("False", "verbose");
     }
 
+    public Verbose(boolean value) {
+        super(value ? "True" : "False", "verbose");
+    }
 }

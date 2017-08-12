@@ -10,14 +10,12 @@ inversely proportional to class frequencies in the input data as n_samples / (n_
 
 //TODO wtf
 
-public class ClassWeight extends Parameter{
+public class ClassWeight extends SvmParameter {
     public ClassWeight() {
-        setName("class_weight");
-        setValue("None");
+        super("None", "class_weight");
     }
     public ClassWeight(int value) {
-        setName("class_weight");
-        setValue(String.valueOf(value));
+        super(String.valueOf(value) , "class_weight");
     }
 
 }

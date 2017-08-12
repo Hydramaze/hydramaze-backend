@@ -4,18 +4,13 @@ boolean, optional (default=True)
 Whether to use the shrinking heuristic.
  */
 
-public class Shrinking extends Parameter{
-    public Shrinking(boolean value) {
-        if(value){
-            setValue("True");
-        }else{
-            setValue("False");
-        }
-        setName("shrinking");
-    }
+public class Shrinking extends SvmParameter {
 
     public Shrinking() {
-        setValue("True");
-        setName("shrinking");
+        super("True", "shrinking");
+    }
+
+    public Shrinking(boolean value) {
+        super(value ? "True" : "False", "shrinking");
     }
 }

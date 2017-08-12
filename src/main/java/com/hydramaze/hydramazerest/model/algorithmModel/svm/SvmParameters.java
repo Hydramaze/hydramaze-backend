@@ -1,10 +1,13 @@
 package com.hydramaze.hydramazerest.model.algorithmModel.svm;
 
+import com.hydramaze.hydramazerest.model.algorithmModel.modelInterfaces.ModelParameters;
+import com.hydramaze.hydramazerest.model.algorithmModel.modelInterfaces.Parameter;
+import com.hydramaze.hydramazerest.model.algorithmModel.svm.parameters.SvmParameter;
 import com.hydramaze.hydramazerest.model.algorithmModel.svm.parameters.*;
 
 import java.util.ArrayList;
 
-public class SvmParameters {
+public class SvmParameters implements ModelParameters {
     private C c = new C();
     private CacheSize cacheSize = new CacheSize();
     private ClassWeight classWeight = new ClassWeight();
@@ -19,25 +22,27 @@ public class SvmParameters {
     private Shrinking shrinking = new Shrinking();
     private Tol tol = new Tol();
     private Verbose verbose = new Verbose();
-    private ArrayList<Parameter> allParameters;
+    private ArrayList<Parameter> allSvmParameters;
 
     public String concatenateValues(){
         StringBuilder concatenatedString= new StringBuilder();
-        for(Parameter p : getAllParameters()){
-            concatenatedString.append(p.getCompleteArgument() + ", ");
+        for(Parameter p : getParameters()){
+            concatenatedString.append(p.getCompleteArgument());
+            concatenatedString.append( ", ");
         }
         return concatenatedString.toString().substring(0, concatenatedString.toString().length()-2);
     }
 
     public String concatenateCallValues(){
         StringBuilder concatenatedString= new StringBuilder();
-        for(Parameter p : getAllParameters()){
-            concatenatedString.append(p.getValue() + " ");
+        for(Parameter p : getParameters()){
+            concatenatedString.append(p.getValue());
+            concatenatedString.append(" ");
         }
         return concatenatedString.toString();
     }
 
-    private SvmParameters(SvcPropertiesBuilder builder){
+    private SvmParameters(SvmPropertiesBuilder builder){
         this.c = builder.c;
         this.cacheSize = builder.cacheSize;
         this.classWeight = builder.classWeight;
@@ -54,7 +59,7 @@ public class SvmParameters {
         this.verbose = builder.verbose;
     }
 
-    public static class SvcPropertiesBuilder{
+    public static class SvmPropertiesBuilder{
         private C c = new C();
         private CacheSize cacheSize = new CacheSize();
         private ClassWeight classWeight = new ClassWeight();
@@ -71,64 +76,64 @@ public class SvmParameters {
         private Verbose verbose = new Verbose();
 
 
-        public SvcPropertiesBuilder withC(C c){
+        public SvmPropertiesBuilder withC(C c){
             this.c = c;
             return this;
         }
 
-        public SvcPropertiesBuilder withCacheSize(CacheSize cacheSize){
+        public SvmPropertiesBuilder withCacheSize(CacheSize cacheSize){
             this.cacheSize = cacheSize;
             return this;
         }
-        public SvcPropertiesBuilder withClassWeight(ClassWeight classWeight){
+        public SvmPropertiesBuilder withClassWeight(ClassWeight classWeight){
             this.classWeight = classWeight;
             return this;
         }
-        public SvcPropertiesBuilder withCoef0(Coef0 coef0){
+        public SvmPropertiesBuilder withCoef0(Coef0 coef0){
             this.coef0 = coef0;
             return this;
         }
-        public SvcPropertiesBuilder withDecisionFunctionShape(DecisionFunctionShape decisionFunctionShape){
+        public SvmPropertiesBuilder withDecisionFunctionShape(DecisionFunctionShape decisionFunctionShape){
             this.decisionFunctionShape = decisionFunctionShape;
             return this;
         }
-        public SvcPropertiesBuilder withDegree(Degree degree){
+        public SvmPropertiesBuilder withDegree(Degree degree){
             this.degree = degree;
             return this;
         }
-        public SvcPropertiesBuilder withGamma(Gamma gamma){
+        public SvmPropertiesBuilder withGamma(Gamma gamma){
             this.gamma = gamma;
             return this;
         }
-        public SvcPropertiesBuilder withKernel(Kernel kernel){
+        public SvmPropertiesBuilder withKernel(Kernel kernel){
             this.kernel = kernel;
             return this;
         }
-        public SvcPropertiesBuilder withMaxIter (MaxIter maxIter){
+        public SvmPropertiesBuilder withMaxIter (MaxIter maxIter){
             this.maxIter = maxIter;
             return this;
         }
-        public SvcPropertiesBuilder withProbability(Probability probability){
+        public SvmPropertiesBuilder withProbability(Probability probability){
             this.probability = probability;
             return this;
         }
 
-        public SvcPropertiesBuilder withRandomState(RandomState randomState){
+        public SvmPropertiesBuilder withRandomState(RandomState randomState){
             this.randomState = randomState;
             return this;
         }
 
-        public SvcPropertiesBuilder withShrinking(Shrinking shrinking){
+        public SvmPropertiesBuilder withShrinking(Shrinking shrinking){
             this.shrinking = shrinking;
             return this;
         }
 
-        public SvcPropertiesBuilder withTol(Tol tol){
+        public SvmPropertiesBuilder withTol(Tol tol){
             this.tol = tol;
             return this;
         }
 
-        public SvcPropertiesBuilder withVerbose(Verbose verbose){
+        public SvmPropertiesBuilder withVerbose(Verbose verbose){
             this.verbose = verbose;
             return this;
         }
@@ -138,17 +143,10 @@ public class SvmParameters {
         }
     }
 
-    private ArrayList<Parameter> getAllParameters(){
-       return this.allParameters = new ArrayList<Parameter>(){{
-
-
-
-
-
-
-
-
-           add(c);
+    @Override
+    public ArrayList<Parameter> getParameters(){
+       return this.allSvmParameters = new ArrayList<Parameter>(){{
+            add(c);
             add(cacheSize);
             add(classWeight);
             add(coef0);

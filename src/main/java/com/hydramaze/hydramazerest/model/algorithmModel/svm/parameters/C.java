@@ -5,13 +5,11 @@ float, optional (default=1.0)
 Penalty parameter C of the error term
 */
 
-public class C extends Parameter {
+public class C extends SvmParameter {
     public C(){
-        setValue("1.0");
-        setName("C");
+        super("1.0", "C");
     }
-    public C (String value){
-        setValue(value);
-        setName("C");
+    public C (float value){
+        super(String.valueOf(value), "C");
     }
 }

@@ -5,11 +5,11 @@ int, optional (default=3)
 Degree of the polynomial kernel function (‘poly’). Ignored by all other kernels.
  */
 
-public class Degree extends Parameter{
+public class Degree extends SvmParameter {
     public Degree() {
-        setValue("3");
+        super("1.0", "degree");
     }
     public Degree(int value){
-        setValue(String.valueOf(value));
+        super(String.valueOf(value), "degree");
     }
 }

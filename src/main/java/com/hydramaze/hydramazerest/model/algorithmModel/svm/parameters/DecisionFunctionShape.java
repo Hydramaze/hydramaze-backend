@@ -8,19 +8,15 @@ New in version 0.17: decision_function_shape=’ovr’ is recommended.
 Changed in version 0.17: Deprecated decision_function_shape=’ovo’ and None.
  */
 
-public class DecisionFunctionShape extends Parameter{
+public class DecisionFunctionShape extends SvmParameter {
 
     public DecisionFunctionShape(){
-        setValue("None");
-        setName("decision_function_shape");
+        super("None", "decision_function_shape");
     }
 
     public DecisionFunctionShape(DecisionFunctionShapeType decisionFunctionShapeType){
-        setValue(decisionFunctionShapeType.getValue());
-        setName("decision_function_shape");
+        super("decisionFunctionShapeType.getValue()", "decision_function_shape");
     }
-
-
 
     public enum DecisionFunctionShapeType{
         OVO,
