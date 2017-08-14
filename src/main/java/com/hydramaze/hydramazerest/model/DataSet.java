@@ -13,4 +13,12 @@ import javax.persistence.Table;
 public class DataSet {
     @Id
     String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

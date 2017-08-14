@@ -16,4 +16,27 @@ public class Algorithm {
     private String simpleDescription;
     private String completeDescription;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSimpleDescription() {
+        return simpleDescription;
+    }
+
+    public void setSimpleDescription(String simpleDescription) {
+        this.simpleDescription = simpleDescription;
+    }
+
+    public String getCompleteDescription() {
+        return completeDescription;
+    }
+
+    public void setCompleteDescription(String completeDescription) {
+        this.completeDescription = completeDescription;
+    }
 }
