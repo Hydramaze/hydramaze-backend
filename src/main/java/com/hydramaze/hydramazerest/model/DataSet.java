@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class DataSet {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @NotBlank
     @NotNull

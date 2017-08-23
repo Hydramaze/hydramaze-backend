@@ -15,7 +15,7 @@ import java.util.List;
 public class Algorithm {
     @Id
     @GeneratedValue
-    private int id;
+    private Integer id;
 
     @NotBlank
     @NotNull
