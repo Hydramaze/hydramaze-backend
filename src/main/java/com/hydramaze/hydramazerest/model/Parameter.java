@@ -100,11 +100,11 @@ public class Parameter {
         this.observation = observation;
     }
 
-//    public List<String> getListData() {
-//        return listData;
-//    }
-//
-//    public void setListData(List<String> listData) {
-//        this.listData = listData;
-//    }
+    public List<String> getListData() {
+        return listData;
+    }
+
+    public void setListData(List<String> listData) {
+        this.listData = listData;
+    }
 }
