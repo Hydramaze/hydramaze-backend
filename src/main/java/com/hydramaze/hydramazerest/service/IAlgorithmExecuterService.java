@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IAlgorithmExecuterService {
 
-    void executeScript(Integer algorithmId, List<ParameterPojo> pojo);
+    void executeScript(Integer algorithmId, List<ParameterPojo> pojo) throws Exception;
 
 }

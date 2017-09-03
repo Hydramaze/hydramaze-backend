@@ -18,6 +18,11 @@ public class AlgorithmDAO implements IAlgorithmDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
+    public Algorithm getById(Integer id) {
+        return entityManager.find(Algorithm.class, id);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Algorithm> getAll() {

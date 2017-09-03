@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface IParameterService {
 
+    Parameter getParameterById(Integer id);
+
     List<Parameter> getParametersByAlgorithmId(Integer id);
 }

@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface IAlgorithmDAO {
 
+    Algorithm getById(Integer id);
+
     List<Algorithm> getAll();
 }

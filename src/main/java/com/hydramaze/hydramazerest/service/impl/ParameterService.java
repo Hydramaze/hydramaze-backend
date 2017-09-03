@@ -18,6 +18,11 @@ public class ParameterService implements IParameterService{
     IParameterDAO parameterDAO;
 
     @Override
+    public Parameter getParameterById(Integer id) {
+        return parameterDAO.getById(id);
+    }
+
+    @Override
     public List<Parameter> getParametersByAlgorithmId(Integer id) {
         return parameterDAO.getParametersByAlgorithmId(id);
     }
