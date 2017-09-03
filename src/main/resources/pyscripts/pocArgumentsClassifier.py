@@ -1,5 +1,6 @@
 import sys
 import argumentParser as parser
+import traceback
 
 
 def classifier(kernel_value, verbose_value):
@@ -36,11 +37,12 @@ def classifier(kernel_value, verbose_value):
     return json.dumps({"accuracy": accuracy, "status": "success"}, sort_keys=True, separators=(',',':'))
 
 
-
-kernel = parser.str2kernel(sys.argv[1])
-verbose = parser.str2verbose(sys.argv[2])
-print(classifier(kernel, verbose))
-
+try:
+    kernel = parser.str2kernel(sys.argv[1])
+    verbose = parser.str2verbose(sys.argv[2])
+    print(classifier(kernel, verbose))
+except Exception as e:
+    traceback.print_exc()
 
 
 
