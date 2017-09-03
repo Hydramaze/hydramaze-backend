@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface IAlgorithmService {
 
+    Algorithm getAlgorithmById(Integer id);
+
     List<Algorithm> getAllAlgorithm();
 }

@@ -9,5 +9,7 @@ import java.util.List;
  */
 public interface IParameterDAO {
 
+    Parameter getById(Integer id);
+
     List<Parameter> getParametersByAlgorithmId(Integer id);
 }

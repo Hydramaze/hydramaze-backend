@@ -17,6 +17,11 @@ public class ParameterDAO implements IParameterDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Override
+    public Parameter getById(Integer id) {
+        return entityManager.find(Parameter.class, id);
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Parameter> getParametersByAlgorithmId(Integer id) {

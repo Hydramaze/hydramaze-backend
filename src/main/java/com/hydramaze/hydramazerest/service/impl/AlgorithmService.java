@@ -18,6 +18,11 @@ public class AlgorithmService implements IAlgorithmService {
     private IAlgorithmDAO algorithmDAO;
 
     @Override
+    public Algorithm getAlgorithmById(Integer id) {
+        return algorithmDAO.getById(id);
+    }
+
+    @Override
     public List<Algorithm> getAllAlgorithm() {
         return algorithmDAO.getAll();
     }
