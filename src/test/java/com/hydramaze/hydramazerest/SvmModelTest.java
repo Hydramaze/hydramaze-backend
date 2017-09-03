@@ -13,8 +13,8 @@ public class SvmModelTest {
         SvmModel svmModel = new SvmModel(svmParameters);
         String[] scriptName = svmModel.buildScriptCall();
 
-        PythonBusiness pythonBusiness = new PythonBusiness();
-        pythonBusiness.startProcess(scriptName);
+//        PythonBusiness pythonBusiness = new PythonBusiness();
+//        pythonBusiness.startProcess(scriptName);
 
     }
 }

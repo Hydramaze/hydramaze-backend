@@ -1,5 +1,26 @@
-import sys
+import sys, getopt
 import argumentParser as parser
+
+# global variables definition
+kernel = None
+verbose = None
+
+def getArguments(argv):
+    try:
+        optlist, args = getopt.getopt(argv, '', ['kernel=', 'verbose='])
+    except getopt.GetoptError:
+        print 'Error when converting arguments.'
+        sys.exit(2)
+    for opt, arg in optlist:
+        if opt == "--kernel":
+            global kernel
+            kernel = arg
+        elif opt == "--verbose":
+            global verbose
+            verbose = arg
+
+        print("option " + opt + " - argument " + arg)
+
 
 
 def classifier(kernel_value, verbose_value):
@@ -35,14 +56,15 @@ def classifier(kernel_value, verbose_value):
     #print results (the last line will be used as a json return to the java class)
     return json.dumps({"accuracy": accuracy, "status": "success"}, sort_keys=True, separators=(',',':'))
 
+# get arguments into its variables
+getArguments(sys.argv[1:])
 
+# variables validation
+try:
+    kernel = parser.str2kernel(kernel)
+    verbose = parser.str2verbose(verbose)
+except Exception, e:
+    print("Variables validation exception. Error: " + str(e))
 
-kernel = parser.str2kernel(sys.argv[1])
-verbose = parser.str2verbose(sys.argv[2])
+# classifier call
 print(classifier(kernel, verbose))
-
-
-
-
-
-
