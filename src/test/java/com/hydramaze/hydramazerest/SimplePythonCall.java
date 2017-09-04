@@ -1,22 +1,20 @@
 package com.hydramaze.hydramazerest;
 
 import com.hydramaze.hydramazerest.business.PythonBusiness;
+import com.hydramaze.hydramazerest.model.PythonRequest;
 import org.junit.Test;
 
 public class SimplePythonCall {
 
     @Test
     public void callScriptTest() {
+        PythonRequest pythonRequest = new PythonRequest("pocArgumentsClassifier.py");
 
-        String[] call = new String[4];
-
-        call[0] = "python";
-        call[1] = "pocArgumentsClassifier.py";
-        call[2] = "rbf";
-        call[3] = "true";
+        pythonRequest.addArgumentWithName("verbose", true)
+                .addArgumentWithName("kernel", "rbf");
 
         PythonBusiness pythonBusiness = new PythonBusiness();
-        pythonBusiness.startProcess(call);
+        pythonBusiness.startProcessCall(pythonRequest);
     }
 
 }

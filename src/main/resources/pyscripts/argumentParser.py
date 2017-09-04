@@ -40,11 +40,15 @@ def str2float(value):
 # @Param value string to be converted to kernel
 # @return a valid kernel value, raises ArgumentTypeError if isn't parseble
 def str2kernel(value):
-    if(value.lower() == "rbf" or value.lower()== "linear" or
-           value.lower() == "poly" or value.lower() == "sigmoid"):
-        return value
+    default_value = "rbf";
+    if value is not None:
+        if (value.lower() == "rbf" or value.lower()== "linear" or
+               value.lower() == "poly" or value.lower() == "sigmoid"):
+            return value
+        else:
+            raise argparse.ArgumentTypeError('kernel value expected. Must be: rbf, linear, poly or sigmoid')
     else:
-        raise argparse.ArgumentTypeError('kernel value expected. Must be: rbf, linear, poly or sigmoid')
+        return default_value
 
 
 # @Param value string to be converted to C
@@ -137,10 +141,12 @@ def str2tol(value):
         return str2float(value)
     except:
         raise argparse.ArgumentTypeError('tol value expected. Must be a float')
+
 # @Param value string to be converted to verbose
 # @return a valid verbose value, raises ArgumentTypeError if isn't parseble
 def str2verbose(value):
-    try:
+    default_value = False
+    if value is not None:
         return str2bool(value)
-    except:
-        raise argparse.ArgumentTypeError('verbose value expected. Must be a boolean')
+    else:
+        return default_value
