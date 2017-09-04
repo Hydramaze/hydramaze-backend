@@ -44,6 +44,10 @@ public class Parameter {
     @ElementCollection
     private List<String> listData;
 
+    private Double minValue;
+
+    private Double maxValue;
+
     public int getId() {
         return id;
     }
@@ -106,5 +110,21 @@ public class Parameter {
 
     public void setListData(List<String> listData) {
         this.listData = listData;
+    }
+
+    public Double getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(Double minValue) {
+        this.minValue = minValue;
+    }
+
+    public Double getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(Double maxValue) {
+        this.maxValue = maxValue;
     }
 }

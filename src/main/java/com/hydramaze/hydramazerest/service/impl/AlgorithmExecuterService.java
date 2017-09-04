@@ -36,8 +36,8 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         }
 
         // TODO: mudar esse cara para ser um serviço e não ser necessário ficar instanciando ele dessa forma.
-        PythonBusiness pythonBusiness = new PythonBusiness();
-        pythonBusiness.startProcess(call);
+//        PythonBusiness pythonBusiness = new PythonBusiness();
+//        pythonBusiness.startProcess(call);
     }
 
     private void validateParameters(Algorithm algorithm, List<Parameter> parametersAlgorithm, List<ParameterPojo> pojoList) throws Exception {
@@ -64,7 +64,14 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
             // Valida componente input-number
             else if (componentName.equals(Component.INPUT_NUMBER.getComponentName())) {
                 try {
-                    Float.parseFloat(pojo.getValue());
+                    if (!parameter.getDefaultValue().equals(pojo.getValue())) {
+                        Double value = Double.parseDouble(pojo.getValue());
+                        if (parameter.getMinValue() != null && value < parameter.getMinValue()) {
+                            throw new Exception("The value '" + pojo.getValue() + "' for field '" + parameter.getName() + "' is less than '" + parameter.getMinValue() + "'");
+                        } else if (parameter.getMaxValue() != null && value > parameter.getMaxValue()) {
+                            throw new Exception("The value '" + pojo.getValue() + "' for field '" + parameter.getName() + "' is greater than '" + parameter.getMaxValue() + "'");
+                        }
+                    }
                 } catch (Exception e) {
                     throw new Exception("The value '" + pojo.getValue() + "' for field '" + parameter.getName() + "' is not a number value");
                 }
