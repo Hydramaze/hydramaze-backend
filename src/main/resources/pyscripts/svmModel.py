@@ -1,15 +1,14 @@
 import sys
+import argumentParser as parser
+import json
+#import data_set
+from sklearn import datasets
+from sklearn.cross_validation import train_test_split
+from sklearn.metrics import accuracy_score
+from sklearn.svm import SVC
 
-#TODO corrigir random_state_value
 def classifier(c_value, cache_size_value, class_weight_value, coef0_value, decision_function_shape_value, degree_value, gamma_value, kernel_value,
               max_iter_value, probability_value, random_state_value, shrinking_value, tol_value, verbose_value):
-    import json
-    #import data_set
-    from sklearn import datasets
-    from sklearn.cross_validation import train_test_split
-    from sklearn.metrics import accuracy_score
-    from sklearn.svm import SVC
-
     #load data_set
     iris = datasets.load_iris()
     #data_set features
@@ -37,50 +36,37 @@ def classifier(c_value, cache_size_value, class_weight_value, coef0_value, decis
 
     #print results (the last line will be used as a json return to the java class)
     # print "teste"
-    return accuracy
+    return json.dumps({"accuracy": accuracy, "status": "success"}, sort_keys=True, separators=(',',':'))
     # print "Teste realizado com sucesso!"
     # print json.dumps({"data": X.tolist(), "target": y.tolist(), "status": "success"}, sort_keys=True, separators=(',',':'))
 
 
 #get the arguments from the console command line (!!!!!!!!WARNING!!!!!!!!!! : must be in order)
 
-c = float(sys.argv[1])
-cache_size = float(sys.argv[2])
-class_weight = None
-#coef0
+
+
 try:
-    coef0 = float(sys.argv[4])
-except:
-    coef0 = sys.argv[4]
+    C = parser.str2C(sys.argv[1])
+    cache_size = parser.str2cache_size(sys.argv[2])
+    class_weight = None #ignored
+    coef0 = parser.str2Coef0(sys.argv[4])
+    decision_function_shape = None #ignored
+    degree = parser.str2degree(sys.argv[6])
+    gamma = parser.str2gamma(sys.argv[7])
+    kernel = parser.str2kernel(sys.argv[8])
+    max_iter = parser.str2max_iter(sys.argv[9])
+    probability = parser.str2probability(sys.argv[10])
+    random_state = None #ignored
+    shrinking = parser.str2shrinking(sys.argv[12])
+    tol = parser.str2tol(sys.argv[13])
+    verbose = parser.str2verbose(sys.argv[14])
 
-decision_function_shape = None
-#degree
-try:
-    degree = int(sys.argv[6])
-except:
-    degree = sys.argv[6]
-#gamma
-try:
-    gamma = float(sys.argv[7])
-except:
-    gamma = sys.argv[7]
+    print classifier(C, cache_size, class_weight, coef0, decision_function_shape, degree, gamma, kernel, max_iter, probability, random_state, shrinking, tol, verbose)
 
-kernel = sys.argv[8]
-max_iter = int(sys.argv[9])
-probability = (sys.argv[10] == 'True')
-#random_state
-try:
-    random_state = float(sys.argv[11])
-except:
-    random_state = sys.argv[11]
-shrinking = (sys.argv[12] == 'True')
-tol = float(sys.argv[13])
-verbose = (sys.argv[14] == 'True')
+except Exception as e:
+    print str(e)
 
-print sys.argv
 
-result = classifier(c, cache_size, class_weight, coef0, decision_function_shape, degree, gamma, kernel, max_iter, probability, random_state, shrinking, tol, verbose)
 
-print result
 
 

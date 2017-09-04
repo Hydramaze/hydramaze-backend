@@ -1,5 +1,6 @@
 import sys, getopt
 import argumentParser as parser
+import traceback
 
 # global variables definition
 kernel = None
@@ -68,3 +69,4 @@ except Exception, e:
 
 # classifier call
 print(classifier(kernel, verbose))
+

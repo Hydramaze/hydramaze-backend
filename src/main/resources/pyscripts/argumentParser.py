@@ -54,66 +54,93 @@ def str2kernel(value):
 # @Param value string to be converted to C
 # @return a valid C value, raises ArgumentTypeError if isn't parseble
 def str2C(value):
-    C = str2float(value)
-    if (C >= 0):
-        return C
-    else:
-        raise argparse.ArgumentTypeError('C value expected. Must be an positive float')
+    try:
+        C = str2float(value)
+        if (C >= 0):
+            return C
+        else:
+            raise argparse.ArgumentTypeError('C value expected. Must be a positive float')
+    except:
+        raise argparse.ArgumentTypeError('C value expected. Must be a positive float')
 
 # @Param value string to be converted to cache_size
 # @return a valid cache_size value, raises ArgumentTypeError if isn't parseble
 def str2cache_size(value):
-    cache = str2float(value)
-    if (cache >= 0):
-        return cache
-    else:
-        raise argparse.ArgumentTypeError('cache_size value expected. Must be an positive float')
-
+    try:
+        cache = str2float(value)
+        if (cache >= 0):
+            return cache
+        else:
+            raise argparse.ArgumentTypeError('cache_size value expected. Must be a positive float')
+    except:
+        raise argparse.ArgumentTypeError('cache_size value expected. Must be a positive float')
 # @Param value string to be converted to coef0
 # @return a valid Coef0 value, raises ArgumentTypeError if isn't parseble
 def str2Coef0(value):
-    return str2float(value)
-
+    try:
+        return str2float(value)
+    except:
+        raise argparse.ArgumentTypeError('Coef0 value expected. Must be a float')
 # @Param value string to be converted to degree
 # @return a valid Degree value, raises ArgumentTypeError if isn't parseble
 def str2degree(value):
-    degree = str2int(value)
-    if (degree > 0):
-        return degree
-    else:
-        raise argparse.ArgumentTypeError('degree value expected. Must be an positive non zero integer')
+    try:
+        degree = str2int(value)
+        if (degree > 0):
+            return degree
+        else:
+            raise argparse.ArgumentTypeError('degree value expected. Must be a positive non zero integer')
+    except:
+        raise argparse.ArgumentTypeError('degree value expected. Must be a positive non zero integer')
 
 # @Param value string to be converted to gamma
 # @return a valid Gamma value, raises ArgumentTypeError if isn't parseble
 def str2gamma(value):
-   return str2float(value)
+    try:
+        return str2float(value)
+    except:
+        if(value == 'auto'):
+            return value
+        else:
+            raise argparse.ArgumentTypeError('gamma value expected. Must be a float or \'auto\'')
+
 
 # @Param value string to be converted to max_iter
 # @return a valid max_iter value, raises ArgumentTypeError if isn't parseble
 def str2max_iter(value):
-    max_iter = str2int(value)
-    if (max_iter >= -1):
-        return max_iter
-    else:
-        raise argparse.ArgumentTypeError('max_iter value expected. Must be an positive integer or -1(represents infinity)')
+    try:
+        max_iter = str2int(value)
+        if (max_iter >= -1):
+            return max_iter
+        else:
+            raise argparse.ArgumentTypeError('max_iter value expected. Must be a positive integer or -1(represents infinity)')
+    except:
+        raise argparse.ArgumentTypeError('max_iter value expected. Must be a positive integer or -1(represents infinity)')
 
 
 # @Param value string to be converted to probability
 # @return a valid probability value, raises ArgumentTypeError if isn't parseble
 def str2probability(value):
-    return str2bool(value)
-
+    try:
+        return str2bool(value)
+    except:
+        raise argparse.ArgumentTypeError('probability value expected. Must be a boolean')
 
 # @Param value string to be converted to shrinking
 # @return a valid shrinking value, raises ArgumentTypeError if isn't parseble
 def str2shrinking(value):
-    return str2bool(value)
-
+    try:
+        return str2bool(value)
+    except:
+        raise argparse.ArgumentTypeError('shrinking value expected. Must be a boolean')
 
 # @Param value string to be converted to tol
 # @return a valid tol value, raises ArgumentTypeError if isn't parseble
 def str2tol(value):
-    return str2bool(value)
+    try:
+        return str2float(value)
+    except:
+        raise argparse.ArgumentTypeError('tol value expected. Must be a float')
 
 # @Param value string to be converted to verbose
 # @return a valid verbose value, raises ArgumentTypeError if isn't parseble
