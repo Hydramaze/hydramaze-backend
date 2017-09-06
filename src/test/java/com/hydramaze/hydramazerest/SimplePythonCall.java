@@ -15,6 +15,7 @@ public class SimplePythonCall {
 
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
+        System.out.println(pythonBusiness.getJsonObjectResult().toString());
     }
 
 }
