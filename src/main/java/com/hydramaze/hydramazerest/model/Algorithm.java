@@ -37,6 +37,10 @@ public class Algorithm {
     @NotNull
     private String completeDescription;
 
+    @NotBlank
+    @NotNull
+    private String scriptName;
+
     @ElementCollection
     private List<Parameter> parameterList;
 
@@ -88,11 +92,11 @@ public class Algorithm {
         this.completeDescription = completeDescription;
     }
 
-//    public List<Parameter> getParameterList() {
-//        return parameterList;
-//    }
-//
-//    public void setParameterList(List<Parameter> parameterList) {
-//        this.parameterList = parameterList;
-//    }
+    public String getScriptName() {
+        return scriptName;
+    }
+
+    public void setScriptName(String scriptName) {
+        this.scriptName = scriptName;
+    }
 }

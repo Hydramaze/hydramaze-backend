@@ -41,6 +41,10 @@ public class Parameter {
     @NotNull
     private String observation;
 
+    @NotBlank
+    @NotNull
+    private String pythonArgumentName;
+
     @ElementCollection
     private List<String> listData;
 
@@ -126,5 +130,17 @@ public class Parameter {
 
     public void setMaxValue(Double maxValue) {
         this.maxValue = maxValue;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPythonArgumentName() {
+        return pythonArgumentName;
+    }
+
+    public void setPythonArgumentName(String pythonArgumentName) {
+        this.pythonArgumentName = pythonArgumentName;
     }
 }

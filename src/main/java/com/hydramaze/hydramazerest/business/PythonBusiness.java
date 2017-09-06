@@ -55,7 +55,7 @@ public class PythonBusiness {
 
     // Private Methods
     private void processBuilder(ArrayList params) throws UnsupportedEncodingException {
-        String folderPath = URLDecoder.decode(ClassLoader.getSystemResource(SCRIPTS_FOLDER_NAME).getFile(), "UTF-8");
+        String folderPath = URLDecoder.decode(getClass().getClassLoader().getResource(SCRIPTS_FOLDER_NAME).getFile(), "UTF-8");
 
         if (folderPath != null && !folderPath.isEmpty()) {
             processBuilder = new ProcessBuilder(params);
@@ -85,6 +85,7 @@ public class PythonBusiness {
 
             String last = null;
             String line;
+            printProcessOutput();
 
             while ((line = input.readLine()) != null) {
                 last = line;

@@ -4,6 +4,7 @@ import com.hydramaze.hydramazerest.business.PythonBusiness;
 import com.hydramaze.hydramazerest.enums.Component;
 import com.hydramaze.hydramazerest.model.Algorithm;
 import com.hydramaze.hydramazerest.model.Parameter;
+import com.hydramaze.hydramazerest.model.PythonRequest;
 import com.hydramaze.hydramazerest.pojo.ParameterPojo;
 import com.hydramaze.hydramazerest.service.IAlgorithmExecuterService;
 import com.hydramaze.hydramazerest.service.IAlgorithmService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AlgorithmExecuterService implements IAlgorithmExecuterService {
@@ -29,15 +31,16 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
 
         validateParameters(algorithm, parametersAlgorithm, pojoList);
 
-        String[] call = new String[pojoList.size() + 1];
-        call[0] = "python";
+        PythonRequest pythonRequest = new PythonRequest(algorithm.getScriptName());
         for (ParameterPojo pojo : pojoList) {
-            call[pojoList.indexOf(pojo) + 1] = pojo.getValue();
+            Parameter parameter = parametersAlgorithm.stream()
+                    .filter(p -> pojo.getParameterId().equals(p.getId())).collect(Collectors.toList()).get(0);
+            pythonRequest.addArgumentWithName(parameter.getPythonArgumentName(), pojo.getValue());
         }
 
-        // TODO: mudar esse cara para ser um serviço e não ser necessário ficar instanciando ele dessa forma.
-//        PythonBusiness pythonBusiness = new PythonBusiness();
-//        pythonBusiness.startProcess(call);
+        PythonBusiness pythonBusiness = new PythonBusiness();
+        pythonBusiness.startProcessCall(pythonRequest);
+        System.out.println(pythonBusiness.getJsonObjectResult().toString());
     }
 
     private void validateParameters(Algorithm algorithm, List<Parameter> parametersAlgorithm, List<ParameterPojo> pojoList) throws Exception {
