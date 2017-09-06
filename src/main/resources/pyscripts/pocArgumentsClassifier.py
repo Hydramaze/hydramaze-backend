@@ -1,6 +1,7 @@
-import sys, getopt
+import getopt
+import sys
+
 import argumentParser as parser
-import traceback
 
 # global variables definition
 kernel = None
@@ -31,6 +32,7 @@ def classifier(kernel_value, verbose_value):
     from sklearn.cross_validation import train_test_split
     from sklearn.metrics import accuracy_score
     from sklearn.svm import SVC
+    from sklearn.metrics import confusion_matrix
 
     #load data_set
     iris = datasets.load_iris()
@@ -54,8 +56,11 @@ def classifier(kernel_value, verbose_value):
     #measure the accuracy of the classifier
     accuracy = accuracy_score(y_test, predictions)
 
+    #get the confusion matrix of about true and predicted values
+    conf_matrix = confusion_matrix(y_test, predictions)
+
     #print results (the last line will be used as a json return to the java class)
-    return json.dumps({"accuracy": accuracy, "status": "success"}, sort_keys=True, separators=(',',':'))
+    return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion_matrix": conf_matrix.tolist()}}, sort_keys=True, separators=(',',':'))
 
 # get arguments into its variables
 getArguments(sys.argv[1:])
@@ -65,8 +70,10 @@ try:
     kernel = parser.str2kernel(kernel)
     verbose = parser.str2verbose(verbose)
 except Exception, e:
-    print("Variables validation exception. Error: " + str(e))
+    print("[ERROR] Variables validation exception. Message: " + str(e))
 
 # classifier call
-print(classifier(kernel, verbose))
-
+try:
+    print(classifier(kernel, verbose))
+except Exception, e:
+    print("[ERROR] Algorithm execution: Message: " + str(e))
