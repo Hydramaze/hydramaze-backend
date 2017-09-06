@@ -1,6 +1,7 @@
 package com.hydramaze.hydramazerest;
 
 import com.hydramaze.hydramazerest.business.PythonBusiness;
+import com.hydramaze.hydramazerest.model.PythonRequest;
 import com.hydramaze.hydramazerest.model.algorithmModel.svm.SvmModel;
 import com.hydramaze.hydramazerest.model.algorithmModel.svm.SvmParameters;
 import org.junit.Test;
@@ -9,12 +10,24 @@ public class SvmModelTest {
 
     @Test
     public void callScriptTest() {
-        SvmParameters svmParameters = new SvmParameters.SvmPropertiesBuilder().build();
-        SvmModel svmModel = new SvmModel(svmParameters);
-        String[] scriptName = svmModel.buildScriptCall();
+        PythonRequest pythonRequest = new PythonRequest("svmModel.py");
 
-//        PythonBusiness pythonBusiness = new PythonBusiness();
-//        pythonBusiness.startProcess(scriptName);
+        pythonRequest.addArgumentWithName("kernel", "rbf")
+                .addArgumentWithName("verbose", false)
+                .addArgumentWithName("C", 1f)
+                .addArgumentWithName("cache_size", 200)
+                .addArgumentWithName("coef0", 0f)
+                .addArgumentWithName("degree", 3)
+                .addArgumentWithName("gamma", "auto")
+                .addArgumentWithName("max_iter", -1)
+                .addArgumentWithName("probability", false)
+                .addArgumentWithName("shrinking", false)
+                .addArgumentWithName("tol", 0.001f);
+
+
+        PythonBusiness pythonBusiness = new PythonBusiness();
+        pythonBusiness.startProcessCall(pythonRequest);
+
 
     }
 }
