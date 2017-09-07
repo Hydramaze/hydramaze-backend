@@ -10,6 +10,7 @@ import com.hydramaze.hydramazerest.pojo.ParameterPojo;
 import com.hydramaze.hydramazerest.service.IAlgorithmExecuterService;
 import com.hydramaze.hydramazerest.service.IAlgorithmService;
 import com.hydramaze.hydramazerest.service.IParameterService;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,7 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
     private IParameterService parameterService;
 
     @Override
-    public void executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
+    public JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
         Algorithm algorithm = algorithmService.getAlgorithmById(algorithmId);
 
         DataSet dataSet = algorithm.getDataSetList().stream().filter(d -> dataSetId.equals(d.getId())).collect(Collectors.toList()).get(0);
@@ -52,7 +53,7 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
 
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
-        System.out.println(pythonBusiness.getJsonObjectResult().toString());
+        return pythonBusiness.getJsonObjectResult().getJSONObject("data");
     }
 
     private void validateParameters(Algorithm algorithm, List<ParameterPojo> pojoList) throws Exception {
