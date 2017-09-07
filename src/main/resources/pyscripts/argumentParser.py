@@ -76,7 +76,7 @@ def str2cache_size(value):
         raise argparse.ArgumentTypeError('cache_size value expected. Must be a positive float')
 # @Param value string to be converted to coef0
 # @return a valid Coef0 value, raises ArgumentTypeError if isn't parseble
-def str2Coef0(value):
+def str2coef0(value):
     try:
         return str2float(value)
     except:
@@ -145,8 +145,7 @@ def str2tol(value):
 # @Param value string to be converted to verbose
 # @return a valid verbose value, raises ArgumentTypeError if isn't parseble
 def str2verbose(value):
-    default_value = False
-    if value is not None:
+    try:
         return str2bool(value)
-    else:
-        return default_value
+    except:
+        raise argparse.ArgumentTypeError('verbose value expected. Must be a float')
