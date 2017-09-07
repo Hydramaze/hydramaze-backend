@@ -10,12 +10,14 @@ public class SimplePythonCall {
     public void callScriptTest() {
         PythonRequest pythonRequest = new PythonRequest("pocArgumentsClassifier.py");
 
-        pythonRequest.addArgumentWithName("verbose", true)
-                .addArgumentWithName("kernel", "rbf");
+        pythonRequest.addArgumentWithName("test_size", 0.5)
+                .addArgumentWithName("verbose", true)
+                .addArgumentWithName("kernel", "rbf")
+                .addArgumentWithName("dataset", "breast_cancer");
 
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
-        System.out.println(pythonBusiness.getJsonObjectResult().toString());
+        //System.out.println(pythonBusiness.getJsonObjectResult().toString());
     }
 
 }

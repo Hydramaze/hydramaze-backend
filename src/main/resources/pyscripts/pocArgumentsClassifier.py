@@ -4,17 +4,26 @@ import sys
 import argumentParser as parser
 
 # global variables definition
+dataset = None
+test_size = None
 kernel = None
 verbose = None
 
 def getArguments(argv):
     try:
-        optlist, args = getopt.getopt(argv, '', ['kernel=', 'verbose='])
+        optlist, args = getopt.getopt(argv, '', ['dataset=', 'test_size=', 'kernel=', 'verbose='])
     except getopt.GetoptError:
         print 'Error when converting arguments.'
         sys.exit(2)
+
     for opt, arg in optlist:
-        if opt == "--kernel":
+        if opt == "--dataset":
+            global dataset
+            dataset = arg
+        elif opt == "--test_size":
+            global test_size
+            test_size = arg
+        elif opt == "--kernel":
             global kernel
             kernel = arg
         elif opt == "--verbose":
@@ -25,7 +34,7 @@ def getArguments(argv):
 
 
 
-def classifier(kernel_value, verbose_value):
+def classifier(dataset_value, test_size_value, kernel_value, verbose_value):
     import json
     #import data_set
     from sklearn import datasets
@@ -35,14 +44,18 @@ def classifier(kernel_value, verbose_value):
     from sklearn.metrics import confusion_matrix
 
     #load data_set
-    iris = datasets.load_iris()
+    if dataset_value == "iris":
+        dataset = datasets.load_iris()
+    elif dataset_value == "breast_cancer":
+        dataset = datasets.load_breast_cancer()
+
     #data_set features
-    X = iris.data
+    X = dataset.data
     #data_set labels
-    y = iris.target
+    y = dataset.target
 
     #split data_set (tain and test)
-    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .5)
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = test_size_value)
 
     #declare the classifier
     my_classifier = SVC(kernel=kernel_value,verbose=verbose_value)
@@ -69,11 +82,13 @@ getArguments(sys.argv[1:])
 try:
     kernel = parser.str2kernel(kernel)
     verbose = parser.str2verbose(verbose)
+    dataset = dataset
+    test_size = parser.str2tol(test_size)
 except Exception, e:
     print("[ERROR] Variables validation exception. Message: " + str(e))
 
 # classifier call
 try:
-    print(classifier(kernel, verbose))
+    print(classifier(dataset, test_size, kernel, verbose))
 except Exception, e:
     print("[ERROR] Algorithm execution: Message: " + str(e))

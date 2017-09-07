@@ -31,7 +31,8 @@ public class PythonBusiness {
             if(!process.waitFor(PROCESS_TIMEOUT, TimeUnit.SECONDS)) {
                 process.destroy();
             } else {
-                getOutputAsJSONObject();
+                printProcessOutput();
+                //getOutputAsJSONObject();
             }
 
             elapsedTime = TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0;
