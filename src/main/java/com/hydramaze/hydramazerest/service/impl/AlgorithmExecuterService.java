@@ -29,19 +29,9 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
     @Override
     public JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
         Algorithm algorithm = algorithmService.getAlgorithmById(algorithmId);
+        DataSet dataSet = getDataSet(algorithm, dataSetId);
 
-        DataSet dataSet = algorithm.getDataSetList().stream().filter(d -> dataSetId.equals(d.getId())).collect(Collectors.toList()).get(0);
-
-        // Valida se o dataset pertence ao algoritmo
-        if (dataSet == null) {
-            throw new Exception("The dataset with id '" + dataSetId + "' does not belong to the algorithm '" + algorithm.getName() + "'");
-        }
-
-        // Valida a quantidade destinada ao aprendizado
-        if (learningCurve < .1 || learningCurve > .9) {
-            throw new Exception("The learning curve should be between 0.1 and 0.9");
-        }
-
+        validateLearningCurve(learningCurve);
         validateParameters(algorithm, pojoList);
 
         PythonRequest pythonRequest = new PythonRequest(algorithm.getScriptName());
@@ -54,6 +44,24 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
         return pythonBusiness.getJsonObjectResult().getJSONObject("data");
+    }
+
+    private DataSet getDataSet(Algorithm algorithm, Integer dataSetId) throws Exception {
+        List<DataSet> dataSetList = algorithm.getDataSetList().stream().filter(d -> dataSetId.equals(d.getId())).collect(Collectors.toList());
+
+        // Valida se o dataset pertence ao algoritmo
+        if (dataSetList.isEmpty()) {
+            throw new Exception("The dataset with id '" + dataSetId + "' does not belong to the algorithm '" + algorithm.getName() + "'");
+        } else {
+            return dataSetList.get(0);
+        }
+    }
+
+    private void validateLearningCurve(Double learningCurve) throws Exception {
+        // Valida a quantidade destinada ao aprendizado
+        if (learningCurve < .1 || learningCurve > .9) {
+            throw new Exception("The learning curve should be between 0.1 and 0.9");
+        }
     }
 
     private void validateParameters(Algorithm algorithm, List<ParameterPojo> pojoList) throws Exception {
