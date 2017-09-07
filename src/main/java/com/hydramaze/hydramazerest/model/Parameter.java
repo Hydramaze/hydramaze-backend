@@ -1,5 +1,6 @@
 package com.hydramaze.hydramazerest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -41,6 +42,7 @@ public class Parameter {
     @NotNull
     private String observation;
 
+    @JsonIgnore
     @NotBlank
     @NotNull
     private String pythonArgumentName;
