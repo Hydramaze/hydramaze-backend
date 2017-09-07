@@ -31,7 +31,7 @@ public class DataSet {
     @NotNull
     private String completeDescription;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
