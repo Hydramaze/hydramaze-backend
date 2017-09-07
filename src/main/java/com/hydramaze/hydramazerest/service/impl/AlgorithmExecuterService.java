@@ -35,6 +35,9 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         validateParameters(algorithm, pojoList);
 
         PythonRequest pythonRequest = new PythonRequest(algorithm.getScriptName());
+        pythonRequest.addArgumentWithName("dataset", dataSet.getPythonDataSetName());
+        pythonRequest.addArgumentWithName("test_size", learningCurve);
+
         for (ParameterPojo pojo : pojoList) {
             Parameter parameter = algorithm.getParameterList().stream()
                     .filter(p -> pojo.getParameterId().equals(p.getId())).collect(Collectors.toList()).get(0);
