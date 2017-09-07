@@ -85,7 +85,6 @@ public class PythonBusiness {
 
             String last = null;
             String line;
-            printProcessOutput();
 
             while ((line = input.readLine()) != null) {
                 last = line;

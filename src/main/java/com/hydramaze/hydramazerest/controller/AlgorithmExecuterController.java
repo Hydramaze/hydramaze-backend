@@ -2,6 +2,7 @@ package com.hydramaze.hydramazerest.controller;
 
 import com.hydramaze.hydramazerest.pojo.ParameterPojo;
 import com.hydramaze.hydramazerest.service.IAlgorithmExecuterService;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class AlgorithmExecuterController {
     public ResponseEntity executeAlgorithm(@RequestParam(required = true) Integer algorithmId
                                           ,@RequestBody(required = true) List<ParameterPojo> pojo) {
         try{
-            algorithmExecuterService.executeScript(algorithmId, pojo);
-            return new ResponseEntity<>("success", HttpStatus.OK);
+            JSONObject jsonObject = algorithmExecuterService.executeScript(algorithmId, pojo);
+            return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (final Exception exception){
             LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
