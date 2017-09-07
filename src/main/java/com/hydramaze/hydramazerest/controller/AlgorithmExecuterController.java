@@ -31,7 +31,7 @@ public class AlgorithmExecuterController {
                                            @RequestParam(required = true) Double learningCurve,
                                            @RequestBody(required = true) List<ParameterPojo> pojo) {
         try{
-            JSONObject jsonObject = algorithmExecuterService.executeScript(algorithmId, dataSetId, learningCurve pojo);
+            JSONObject jsonObject = algorithmExecuterService.executeScript(algorithmId, dataSetId, learningCurve, pojo);
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (final Exception exception){
             LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
