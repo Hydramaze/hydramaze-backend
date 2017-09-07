@@ -26,10 +26,12 @@ public class AlgorithmExecuterController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity executeAlgorithm(@RequestParam(required = true) Integer algorithmId
-                                          ,@RequestBody(required = true) List<ParameterPojo> pojo) {
+    public ResponseEntity executeAlgorithm(@RequestParam(required = true) Integer algorithmId,
+                                           @RequestParam(required = true) Integer dataSetId,
+                                           @RequestParam(required = true) Double learningCurve,
+                                           @RequestBody(required = true) List<ParameterPojo> pojo) {
         try{
-            JSONObject jsonObject = algorithmExecuterService.executeScript(algorithmId, pojo);
+            JSONObject jsonObject = algorithmExecuterService.executeScript(algorithmId, dataSetId, learningCurve, pojo);
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (final Exception exception){
             LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());

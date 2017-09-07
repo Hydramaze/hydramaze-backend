@@ -3,6 +3,7 @@ package com.hydramaze.hydramazerest.service.impl;
 import com.hydramaze.hydramazerest.business.PythonBusiness;
 import com.hydramaze.hydramazerest.enums.Component;
 import com.hydramaze.hydramazerest.model.Algorithm;
+import com.hydramaze.hydramazerest.model.DataSet;
 import com.hydramaze.hydramazerest.model.Parameter;
 import com.hydramaze.hydramazerest.model.PythonRequest;
 import com.hydramaze.hydramazerest.pojo.ParameterPojo;
@@ -26,15 +27,19 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
     private IParameterService parameterService;
 
     @Override
-    public JSONObject executeScript(Integer algorithmId, List<ParameterPojo> pojoList) throws Exception {
+    public JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
         Algorithm algorithm = algorithmService.getAlgorithmById(algorithmId);
-        List<Parameter> parametersAlgorithm = parameterService.getParametersByAlgorithmId(algorithmId);
+        DataSet dataSet = getDataSet(algorithm, dataSetId);
 
-        validateParameters(algorithm, parametersAlgorithm, pojoList);
+        validateLearningCurve(learningCurve);
+        validateParameters(algorithm, pojoList);
 
         PythonRequest pythonRequest = new PythonRequest(algorithm.getScriptName());
+        pythonRequest.addArgumentWithName("dataset", dataSet.getPythonDataSetName());
+        pythonRequest.addArgumentWithName("test_size", learningCurve);
+
         for (ParameterPojo pojo : pojoList) {
-            Parameter parameter = parametersAlgorithm.stream()
+            Parameter parameter = algorithm.getParameterList().stream()
                     .filter(p -> pojo.getParameterId().equals(p.getId())).collect(Collectors.toList()).get(0);
             pythonRequest.addArgumentWithName(parameter.getPythonArgumentName(), pojo.getValue());
         }
@@ -44,13 +49,36 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         return pythonBusiness.getJsonObjectResult().getJSONObject("data");
     }
 
-    private void validateParameters(Algorithm algorithm, List<Parameter> parametersAlgorithm, List<ParameterPojo> pojoList) throws Exception {
+    private DataSet getDataSet(Algorithm algorithm, Integer dataSetId) throws Exception {
+        List<DataSet> dataSetList = algorithm.getDataSetList().stream().filter(d -> dataSetId.equals(d.getId())).collect(Collectors.toList());
+
+        // Valida se o dataset pertence ao algoritmo
+        if (dataSetList.isEmpty()) {
+            throw new Exception("The dataset with id '" + dataSetId + "' does not belong to the algorithm '" + algorithm.getName() + "'");
+        } else {
+            return dataSetList.get(0);
+        }
+    }
+
+    private void validateLearningCurve(Double learningCurve) throws Exception {
+        // Valida a quantidade destinada ao aprendizado
+        if (learningCurve < .1 || learningCurve > .9) {
+            throw new Exception("The learning curve should be between 0.1 and 0.9");
+        }
+    }
+
+    private void validateParameters(Algorithm algorithm, List<ParameterPojo> pojoList) throws Exception {
         for (ParameterPojo pojo : pojoList) {
             Parameter parameter = parameterService.getParameterById(pojo.getParameterId());
             String componentName = parameter.getComponent();
 
+            // Valida se a quantidade de parâmetros passado é a mesma que foi recebida
+            if (algorithm.getParameterList().size() != pojoList.size()) {
+                throw new Exception("The algorithm has '" + algorithm.getParameterList().size() + "' parameters and received only '" + pojoList.size() + "'");
+            }
+
             // Valida se pertence ao algoritmo
-            if (!parametersAlgorithm.contains(parameter)) {
+            if (!algorithm.getParameterList().contains(parameter)) {
                 throw new Exception("The paramater '" + parameter.getName() + "' does not belong to the algorithm '" + algorithm.getName() + "'");
             }
             // Valida componente combo-box

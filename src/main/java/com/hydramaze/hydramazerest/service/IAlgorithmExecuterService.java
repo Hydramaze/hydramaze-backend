@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface IAlgorithmExecuterService {
 
-    JSONObject executeScript(Integer algorithmId, List<ParameterPojo> pojo) throws Exception;
+    JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojo) throws Exception;
 
 }

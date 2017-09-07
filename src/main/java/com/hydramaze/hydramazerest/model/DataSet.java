@@ -1,5 +1,6 @@
 package com.hydramaze.hydramazerest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Entity;
@@ -31,11 +32,16 @@ public class DataSet {
     @NotNull
     private String completeDescription;
 
-    public int getId() {
+    @JsonIgnore
+    @NotBlank
+    @NotNull
+    private String pythonDataSetName;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -61,5 +67,13 @@ public class DataSet {
 
     public void setCompleteDescription(String completeDescription) {
         this.completeDescription = completeDescription;
+    }
+
+    public String getPythonDataSetName() {
+        return pythonDataSetName;
+    }
+
+    public void setPythonDataSetName(String pythonDataSetName) {
+        this.pythonDataSetName = pythonDataSetName;
     }
 }

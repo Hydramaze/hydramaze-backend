@@ -1,5 +1,6 @@
 package com.hydramaze.hydramazerest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -41,8 +42,13 @@ public class Algorithm {
     @NotNull
     private String scriptName;
 
+    @JsonIgnore
     @ElementCollection
     private List<Parameter> parameterList;
+
+    @JsonIgnore
+    @ElementCollection
+    private List<DataSet> dataSetList;
 
     public Integer getId() {
         return id;
@@ -98,5 +104,21 @@ public class Algorithm {
 
     public void setScriptName(String scriptName) {
         this.scriptName = scriptName;
+    }
+
+    public List<Parameter> getParameterList() {
+        return parameterList;
+    }
+
+    public void setParameterList(List<Parameter> parameterList) {
+        this.parameterList = parameterList;
+    }
+
+    public List<DataSet> getDataSetList() {
+        return dataSetList;
+    }
+
+    public void setDataSetList(List<DataSet> dataSetList) {
+        this.dataSetList = dataSetList;
     }
 }
