@@ -12,9 +12,11 @@ public class SvmModelTest {
     public void callScriptTest() {
         PythonRequest pythonRequest = new PythonRequest("svmModel.py");
 
-        pythonRequest.addArgumentWithName("kernel", "rbf")
+        pythonRequest.addArgumentWithName("dataset", "iris")
+                .addArgumentWithName("test_size", 0.5)
+                .addArgumentWithName("kernel", "rbf")
                 .addArgumentWithName("verbose", false)
-                .addArgumentWithName("C", 1f)
+                .addArgumentWithName("C", 1)
                 .addArgumentWithName("cache_size", 200)
                 .addArgumentWithName("coef0", 0f)
                 .addArgumentWithName("degree", 3)
@@ -22,12 +24,11 @@ public class SvmModelTest {
                 .addArgumentWithName("max_iter", -1)
                 .addArgumentWithName("probability", false)
                 .addArgumentWithName("shrinking", false)
-                .addArgumentWithName("tol", 0.001f);
+                .addArgumentWithName("tol", 0.001);
 
 
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
-
-
+        System.out.println(pythonBusiness.getJsonObjectResult().toString());
     }
 }

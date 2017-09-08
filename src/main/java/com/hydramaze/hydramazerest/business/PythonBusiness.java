@@ -31,8 +31,7 @@ public class PythonBusiness {
             if(!process.waitFor(PROCESS_TIMEOUT, TimeUnit.SECONDS)) {
                 process.destroy();
             } else {
-                printProcessOutput();
-                //getOutputAsJSONObject();
+                getOutputAsJSONObject();
             }
 
             elapsedTime = TimeUnit.MILLISECONDS.convert((System.nanoTime() - startTime), TimeUnit.NANOSECONDS) / 1000.0;
@@ -61,21 +60,6 @@ public class PythonBusiness {
         if (folderPath != null && !folderPath.isEmpty()) {
             processBuilder = new ProcessBuilder(params);
             processBuilder.directory(new File(folderPath));
-        }
-    }
-
-    private void printProcessOutput(){
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    process.getInputStream()));
-
-            String line;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-        } catch (Exception e){
-            e.printStackTrace();
         }
     }
 

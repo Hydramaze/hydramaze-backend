@@ -27,8 +27,9 @@ tol = None
 
 def getArguments(argv):
     try:
-        optlist, args = getopt.getopt(argv, '', ['kernel=', 'verbose=', 'C=', 'cache_size=', 'coef0=', 'degree=',
-                                                 'gamma=', 'max_iter=', 'probability=', 'shrinking=', 'tol='])
+        optlist, args = getopt.getopt(argv, '', ['dataset=', 'test_size=','kernel=', 'verbose=', 'C=', 'cache_size=',
+                                                 'coef0=', 'degree=', 'gamma=', 'max_iter=', 'probability=',
+                                                 'shrinking=', 'tol='])
     except getopt.GetoptError:
         print 'Error when converting arguments.'
         sys.exit(2)
