@@ -10,6 +10,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.svm import SVC
 
 # global variables definition
+dataset = None
+test_size = None
 kernel = None
 verbose = None
 C = None
@@ -34,7 +36,13 @@ def getArguments(argv):
         print 'Error when converting arguments.'
         sys.exit(2)
     for opt, arg in optlist:
-        if opt == "--kernel":
+        if opt == "--dataset":
+            global dataset
+            dataset = arg
+        elif opt == "--test_size":
+            global test_size
+            test_size = parser.str2tol(arg)
+        elif opt == "--kernel":
             global kernel
             kernel = parser.str2kernel(arg)
         elif opt == "--verbose":
@@ -70,16 +78,28 @@ def getArguments(argv):
 
         # print("option " + opt + " - argument " + arg)
 
-def classifier():
+def getDataset():
+    global dataset
     #load data_set
-    iris = datasets.load_iris()
+    if dataset == "iris":
+        loaded_dataset = datasets.load_iris()
+    elif dataset == "breast_cancer":
+        loaded_dataset = datasets.load_breast_cancer()
+    else:
+        raise Exception('Dataset is not a valid one. Try iris or breast_cancer.')
+
+    return loaded_dataset
+
+def classifier(loaded_dataset):
     #data_set features
-    X = iris.data
+    X = loaded_dataset.data
     #data_set labels
-    y = iris.target
+    y = loaded_dataset.target
+    #get class names from dataset
+    class_names = loaded_dataset.target_names
 
     #split data_set (tain and test)
-    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = .5)
+    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = test_size)
 
     #declare the classifier
     my_classifier = SVC(C=C, cache_size=cache_size, class_weight=None, coef0=coef0,
@@ -100,13 +120,12 @@ def classifier():
     conf_matrix = confusion_matrix(y_test, predictions)
 
     #print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion_matrix": conf_matrix.tolist()}},
-                      sort_keys=True, separators=(',',':'))
+    return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion_matrix": {"class_names": class_names.tolist(),"matrix": conf_matrix.tolist()}}}, sort_keys=True, separators=(',',':'))
 
 
 try:
     getArguments(sys.argv[1:])
-    print classifier()
+    print classifier(getDataset())
 
 except Exception as e:
     print json.dumps({"status": "error", "data": {"error": str(e)}}, sort_keys=True, separators=(',',':'))

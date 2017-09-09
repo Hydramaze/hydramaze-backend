@@ -31,6 +31,11 @@ public class ParameterController {
     public ResponseEntity getParametersByAlgorithmId(@RequestParam (required = true) Integer id) {
         try{
             List<Parameter> response = parameterService.getParametersByAlgorithmId(id);
+
+            if (response == null || response.isEmpty() || response.get(0) == null) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (final Exception exception){
             LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
