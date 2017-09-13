@@ -40,15 +40,11 @@ def str2float(value):
 # @Param value string to be converted to kernel
 # @return a valid kernel value, raises ArgumentTypeError if isn't parseble
 def str2kernel(value):
-    default_value = "rbf";
-    if value is not None:
-        if (value.lower() == "rbf" or value.lower()== "linear" or
-               value.lower() == "poly" or value.lower() == "sigmoid"):
-            return value
-        else:
-            raise argparse.ArgumentTypeError('kernel value expected. Must be: rbf, linear, poly or sigmoid')
+    if (value.lower() == "rbf" or value.lower()== "linear" or
+           value.lower() == "poly" or value.lower() == "sigmoid"):
+        return value
     else:
-        return default_value
+        raise argparse.ArgumentTypeError('kernel value expected. Must be: rbf, linear, poly or sigmoid')
 
 
 # @Param value string to be converted to C
@@ -56,7 +52,7 @@ def str2kernel(value):
 def str2C(value):
     try:
         C = str2float(value)
-        if (C >= 0):
+        if (C > 0):
             return C
         else:
             raise argparse.ArgumentTypeError('C value expected. Must be a positive float')
@@ -68,7 +64,7 @@ def str2C(value):
 def str2cache_size(value):
     try:
         cache = str2float(value)
-        if (cache >= 0):
+        if (cache > 0):
             return cache
         else:
             raise argparse.ArgumentTypeError('cache_size value expected. Must be a positive float')
@@ -86,18 +82,22 @@ def str2coef0(value):
 def str2degree(value):
     try:
         degree = str2int(value)
-        if (degree > 0):
+        if (degree >= 0):
             return degree
         else:
-            raise argparse.ArgumentTypeError('degree value expected. Must be a positive non zero integer')
+            raise argparse.ArgumentTypeError('degree value expected. Must be a positive integer')
     except:
-        raise argparse.ArgumentTypeError('degree value expected. Must be a positive non zero integer')
+        raise argparse.ArgumentTypeError('degree value expected. Must be a positive integer')
 
 # @Param value string to be converted to gamma
 # @return a valid Gamma value, raises ArgumentTypeError if isn't parseble
 def str2gamma(value):
     try:
-        return str2float(value)
+        gamma = str2float(value)
+        if (gamma > 0):
+            return gamma
+        else:
+            raise argparse.ArgumentTypeError('gamma value expected. Must be a positive non zero float')
     except:
         if(value == 'auto'):
             return value
@@ -113,9 +113,11 @@ def str2max_iter(value):
         if (max_iter >= -1):
             return max_iter
         else:
-            raise argparse.ArgumentTypeError('max_iter value expected. Must be a positive integer or -1(represents infinity)')
+            raise argparse.ArgumentTypeError\
+                ('max_iter value expected. Must be a positive integer or -1(represents infinity)')
     except:
-        raise argparse.ArgumentTypeError('max_iter value expected. Must be a positive integer or -1(represents infinity)')
+        raise argparse.ArgumentTypeError\
+            ('max_iter value expected. Must be a positive integer or -1(represents infinity)')
 
 
 # @Param value string to be converted to probability
@@ -138,9 +140,13 @@ def str2shrinking(value):
 # @return a valid tol value, raises ArgumentTypeError if isn't parseble
 def str2tol(value):
     try:
-        return str2float(value)
+        tol = str2float(value)
+        if (tol > 0):
+            return tol
+        else:
+            raise argparse.ArgumentTypeError('tol value expected. Must be a positive float')
     except:
-        raise argparse.ArgumentTypeError('tol value expected. Must be a float')
+        raise argparse.ArgumentTypeError('tol value expected. Must be a positive float')
 
 # @Param value string to be converted to verbose
 # @return a valid verbose value, raises ArgumentTypeError if isn't parseble
