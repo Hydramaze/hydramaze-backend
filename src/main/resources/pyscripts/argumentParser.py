@@ -109,15 +109,10 @@ def str2gamma(value):
 # @return a valid max_iter value, raises ArgumentTypeError if isn't parseble
 def str2max_iter(value):
     try:
-        max_iter = str2int(value)
-        if (max_iter >= -1):
-            return max_iter
-        else:
-            raise argparse.ArgumentTypeError\
-                ('max_iter value expected. Must be a positive integer or -1(represents infinity)')
+        return str2int(value)
     except:
         raise argparse.ArgumentTypeError\
-            ('max_iter value expected. Must be a positive integer or -1(represents infinity)')
+            ('max_iter value expected. Must be an integer. -1 represents infinity')
 
 
 # @Param value string to be converted to probability
