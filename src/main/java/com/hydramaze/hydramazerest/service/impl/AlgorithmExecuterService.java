@@ -104,7 +104,7 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
                             throw new Exception("The value '" + pojo.getValue() + "' for field '" + parameter.getName() + "' is greater than '" + parameter.getMaxValue() + "'");
                         }
                     }
-                } catch (Exception e) {
+                } catch (NumberFormatException e) {
                     throw new Exception("The value '" + pojo.getValue() + "' for field '" + parameter.getName() + "' is not a number value");
                 }
             }
