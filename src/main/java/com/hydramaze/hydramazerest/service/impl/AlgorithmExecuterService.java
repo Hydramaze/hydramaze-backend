@@ -12,8 +12,15 @@ import com.hydramaze.hydramazerest.service.IAlgorithmService;
 import com.hydramaze.hydramazerest.service.IParameterService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +54,30 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
         return pythonBusiness.getJsonObjectResult().getJSONObject("data");
+    }
+
+    @Override
+    public InputStream downloadScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
+        Algorithm algorithm = algorithmService.getAlgorithmById(algorithmId);
+        DataSet dataSet = getDataSet(algorithm, dataSetId);
+
+        validateLearningCurve(learningCurve);
+        validateParameters(algorithm, pojoList);
+
+        Path path = Paths.get(URLDecoder.decode(getClass().getClassLoader().getResource("scriptTemplate").getFile() + "/" + algorithm.getTemplateName(), "UTF-8"));
+        String content = new String(Files.readAllBytes(path));
+        content = content.replace("%dataset%", dataSet.getPythonDataSetName());
+        content = content.replace("%test_size%", learningCurve.toString());
+
+        for (ParameterPojo pojo : pojoList) {
+            Parameter parameter = algorithm.getParameterList().stream()
+                    .filter(p -> pojo.getParameterId().equals(p.getId())).collect(Collectors.toList()).get(0);
+            content = content.replace("%" + parameter.getPythonArgumentName() + "%", pojo.getValue());
+        }
+        content = content.replaceAll("false", "False");
+        content = content.replaceAll("true", "True");
+
+        return new ByteArrayInputStream(content.getBytes("UTF-8"));
     }
 
     private DataSet getDataSet(Algorithm algorithm, Integer dataSetId) throws Exception {

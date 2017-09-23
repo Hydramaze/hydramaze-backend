@@ -42,6 +42,10 @@ public class Algorithm {
     @NotNull
     private String scriptName;
 
+    @NotBlank
+    @NotNull
+    private String templateName;
+
     @JsonIgnore
     @ElementCollection
     private List<Parameter> parameterList;
@@ -120,5 +124,13 @@ public class Algorithm {
 
     public void setDataSetList(List<DataSet> dataSetList) {
         this.dataSetList = dataSetList;
+    }
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 }

@@ -6,10 +6,13 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -33,6 +36,25 @@ public class AlgorithmExecuterController {
         try{
             JSONObject jsonObject = algorithmExecuterService.executeScript(algorithmId, dataSetId, learningCurve, pojo);
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
+        } catch (final Exception exception){
+            LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "download", method = RequestMethod.POST)
+    public ResponseEntity download(@RequestParam(required = true) Integer algorithmId,
+                                   @RequestParam(required = true) Integer dataSetId,
+                                   @RequestParam(required = true) Double learningCurve,
+                                   @RequestBody(required = true) List<ParameterPojo> pojo) {
+        try{
+            InputStream is = algorithmExecuterService.downloadScript(algorithmId, dataSetId, learningCurve, pojo);
+
+            return ResponseEntity
+                    .ok()
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .header("content-disposition", "attachment; filename=" + "teste" + ".py")
+                    .body(new InputStreamResource(is));
         } catch (final Exception exception){
             LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
