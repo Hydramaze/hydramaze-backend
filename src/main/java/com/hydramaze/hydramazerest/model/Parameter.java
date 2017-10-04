@@ -50,6 +50,9 @@ public class Parameter {
     @ElementCollection
     private List<String> listData;
 
+    @ElementCollection
+    private List<Reference> references;
+
     private Double minValue;
 
     private Double maxValue;
@@ -144,5 +147,13 @@ public class Parameter {
 
     public void setPythonArgumentName(String pythonArgumentName) {
         this.pythonArgumentName = pythonArgumentName;
+    }
+
+    public List<Reference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(List<Reference> references) {
+        this.references = references;
     }
 }
