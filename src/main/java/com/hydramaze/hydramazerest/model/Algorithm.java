@@ -54,6 +54,9 @@ public class Algorithm {
     @ElementCollection
     private List<DataSet> dataSetList;
 
+    @ElementCollection
+    private List<Reference> references;
+
     public Integer getId() {
         return id;
     }
@@ -132,5 +135,13 @@ public class Algorithm {
 
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
+    }
+
+    public List<Reference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(List<Reference> references) {
+        this.references = references;
     }
 }
