@@ -23,7 +23,6 @@ degree = None
 gamma = None
 max_iter = None
 probability = None
-random_state = 42 #Hardcoded not useful to the end user
 shrinking = None
 tol = None
 
@@ -76,8 +75,6 @@ def getArguments(argv):
             global tol
             tol = parser.str2tol(arg)
 
-        # print("option " + opt + " - argument " + arg)
-
 def getDataset():
     global dataset
     #load data_set
@@ -104,8 +101,8 @@ def classifier(loaded_dataset):
     #declare the classifier
     my_classifier = SVC(C=C, cache_size=cache_size, class_weight=None, coef0=coef0,
                         degree=degree, gamma=gamma, kernel=kernel, max_iter=max_iter,
-                        probability=probability, random_state=random_state, shrinking=shrinking,
-                        tol=tol, verbose=verbose)
+                        probability=probability, shrinking=shrinking, tol=tol,
+                        verbose=verbose)
 
     #fit(train) the classifier
     my_classifier.fit(X_train, y_train)

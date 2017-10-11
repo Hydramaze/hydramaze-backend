@@ -149,4 +149,44 @@ def str2verbose(value):
     try:
         return str2bool(value)
     except:
-        raise argparse.ArgumentTypeError('verbose value expected. Must be a float')
+        raise argparse.ArgumentTypeError('verbose value expected. Must be a boolean')
+
+"""
+***************** Linear Regressor parameters types argument parser ***************** 
+"""
+
+# @Param value string to be converted to fit_intercept
+# @return a valid fit_intercept value, raises ArgumentTypeError if isn't parseble
+def str2fit_intercept(value):
+    try:
+        return str2bool(value)
+    except:
+        raise argparse.ArgumentTypeError('fit_intercept value expected. Must be a boolean')
+
+# @Param value string to be converted to normalize
+# @return a valid normalize value, raises ArgumentTypeError if isn't parseble
+def str2normalize(value):
+    try:
+        return str2bool(value)
+    except:
+        raise argparse.ArgumentTypeError('normalize value expected. Must be a boolean')
+
+# @Param value string to be converted to copy_X
+# @return a valid copy_X value, raises ArgumentTypeError if isn't parseble
+def str2copy_X(value):
+    try:
+        return str2bool(value)
+    except:
+        raise argparse.ArgumentTypeError('copy_X value expected. Must be a boolean')
+
+# @Param value string to be converted to copy_X
+# @return a valid copy_X value, raises ArgumentTypeError if isn't parseble
+def str2n_jobs(value):
+    try:
+        n_jobs = str2int(value)
+        if (n_jobs > 0 or n_jobs == -1):
+            return n_jobs
+        else:
+            raise argparse.ArgumentTypeError('n_jobs value expected. Must be a positive integer or -1')
+    except:
+        raise argparse.ArgumentTypeError('n_jobs value expected. Must be a positive integer or -1')
