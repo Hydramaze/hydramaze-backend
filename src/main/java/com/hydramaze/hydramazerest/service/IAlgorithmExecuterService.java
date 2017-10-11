@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface IAlgorithmExecuterService {
 
-    JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojo) throws Exception;
+    JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double testSize, List<ParameterPojo> pojo) throws Exception;
 
-    InputStream downloadScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojo) throws Exception;
+    InputStream downloadScript(Integer algorithmId, Integer dataSetId, Double testSize, List<ParameterPojo> pojo) throws Exception;
 
 }

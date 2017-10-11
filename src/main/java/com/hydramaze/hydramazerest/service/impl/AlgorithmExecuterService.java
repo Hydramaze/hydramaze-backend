@@ -34,16 +34,16 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
     private IParameterService parameterService;
 
     @Override
-    public JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
+    public JSONObject executeScript(Integer algorithmId, Integer dataSetId, Double testSize, List<ParameterPojo> pojoList) throws Exception {
         Algorithm algorithm = algorithmService.getAlgorithmById(algorithmId);
         DataSet dataSet = getDataSet(algorithm, dataSetId);
 
-        validateLearningCurve(learningCurve);
+        validateTestSize(testSize);
         validateParameters(algorithm, pojoList);
 
         PythonRequest pythonRequest = new PythonRequest(algorithm.getScriptName());
         pythonRequest.addArgumentWithName("dataset", dataSet.getPythonDataSetName());
-        pythonRequest.addArgumentWithName("test_size", learningCurve);
+        pythonRequest.addArgumentWithName("test_size", testSize);
 
         for (ParameterPojo pojo : pojoList) {
             Parameter parameter = algorithm.getParameterList().stream()
@@ -57,17 +57,17 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
     }
 
     @Override
-    public InputStream downloadScript(Integer algorithmId, Integer dataSetId, Double learningCurve, List<ParameterPojo> pojoList) throws Exception {
+    public InputStream downloadScript(Integer algorithmId, Integer dataSetId, Double testSize, List<ParameterPojo> pojoList) throws Exception {
         Algorithm algorithm = algorithmService.getAlgorithmById(algorithmId);
         DataSet dataSet = getDataSet(algorithm, dataSetId);
 
-        validateLearningCurve(learningCurve);
+        validateTestSize(testSize);
         validateParameters(algorithm, pojoList);
 
         Path path = Paths.get(URLDecoder.decode(getClass().getClassLoader().getResource("scriptTemplate").getFile() + "/" + algorithm.getTemplateName(), "UTF-8"));
         String content = new String(Files.readAllBytes(path));
         content = content.replace("%dataset%", dataSet.getPythonDataSetName());
-        content = content.replace("%test_size%", learningCurve.toString());
+        content = content.replace("%test_size%", testSize.toString());
 
         for (ParameterPojo pojo : pojoList) {
             Parameter parameter = algorithm.getParameterList().stream()
@@ -91,10 +91,10 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         }
     }
 
-    private void validateLearningCurve(Double learningCurve) throws Exception {
+    private void validateTestSize(Double testSize) throws Exception {
         // Valida a quantidade destinada ao aprendizado
-        if (learningCurve < .1 || learningCurve > .9) {
-            throw new Exception("The learning curve should be between 0.1 and 0.9");
+        if (testSize < .1 || testSize > .9) {
+            throw new Exception("The test size should be between 0.1 and 0.9");
         }
     }
 
