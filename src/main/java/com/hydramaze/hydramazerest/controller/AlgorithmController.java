@@ -51,7 +51,7 @@ public class AlgorithmController {
             List<Algorithm> response = algorithmService.getAllAlgorithm();
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (final Exception exception){
-            LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
+            LOG.error("[GET] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -67,7 +67,7 @@ public class AlgorithmController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (final Exception exception){
-            LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
+            LOG.error("[GET] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,7 +78,7 @@ public class AlgorithmController {
             List<DataSet> response = dataSetService.getDataSetsByAlgorithmId(id);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (final Exception exception){
-            LOG.error("[GET] /api/{} - {}", getApiName(), exception.getMessage());
+            LOG.error("[GET] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -92,7 +92,7 @@ public class AlgorithmController {
             JSONObject jsonObject = algorithmExecuterService.executeScript(id, dataSetId, testSize, pojo);
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (final Exception exception){
-            LOG.error("[POST] /api/{} - {}", getApiName(), exception.getMessage());
+            LOG.error("[POST] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -114,7 +114,7 @@ public class AlgorithmController {
                     .header("content-disposition", "attachment; filename=" + fileName)
                     .body(new InputStreamResource(is));
         } catch (final Exception exception){
-            LOG.error("[POST] /api/{} - {}", getApiName(), exception.getMessage());
+            LOG.error("[POST] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
