@@ -44,17 +44,23 @@ def getArguments(argv):
             n_jobs = parser.str2n_jobs(arg)
 
 
-def loadDataset():
+def getDataset():
     global dataset
     #load data_set
-    dataset = datasets.load_boston()
+    if dataset == "diabetes":
+        loaded_dataset = datasets.load_diabetes()
+    elif dataset == "boston":
+        loaded_dataset = datasets.load_boston()
+    else:
+        raise Exception('Dataset is not a valid one. Try diabetes or boston.')
 
+    return loaded_dataset
 
-def regressor():
+def regressor(loaded_dataset):
     #data_set features
-    X = dataset.data
+    X = loaded_dataset.data
     #data_set labels
-    y = dataset.target
+    y = loaded_dataset.target
 
     #split data_set (tain and test)
     X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.3)
@@ -76,6 +82,7 @@ def regressor():
     return json.dumps({"status": "success", "data": {"accuracy": r2_score_value, "confusion_matrix": None}}, sort_keys=True, separators=(',',':'))
 
 try:
-    print regressor()
+    getArguments(sys.argv[1:])
+    print regressor(getDataset())
 except Exception as e:
     print json.dumps({"status": "error", "data": {"error": str(e)}}, sort_keys=True, separators=(',',':'))
