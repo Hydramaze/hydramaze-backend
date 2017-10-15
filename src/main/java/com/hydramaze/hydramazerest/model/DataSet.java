@@ -3,11 +3,9 @@ package com.hydramaze.hydramazerest.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by mvg on 13/08/17.
@@ -36,6 +34,9 @@ public class DataSet {
     @NotBlank
     @NotNull
     private String pythonDataSetName;
+
+    @ElementCollection
+    private List<Reference> references;
 
     public Integer getId() {
         return id;
@@ -75,5 +76,13 @@ public class DataSet {
 
     public void setPythonDataSetName(String pythonDataSetName) {
         this.pythonDataSetName = pythonDataSetName;
+    }
+
+    public List<Reference> getReferences() {
+        return references;
+    }
+
+    public void setReferences(List<Reference> references) {
+        this.references = references;
     }
 }
