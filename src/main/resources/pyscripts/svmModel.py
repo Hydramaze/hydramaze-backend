@@ -117,7 +117,7 @@ def classifier(loaded_dataset):
     conf_matrix = confusion_matrix(y_test, predictions)
 
     #print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion_matrix": {"class_names": class_names.tolist(),"matrix": conf_matrix.tolist()}}}, sort_keys=True, separators=(',',':'))
+    return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion-matrix": {"class_names": class_names.tolist(),"matrix": conf_matrix.tolist()}}}, sort_keys=True, separators=(',',':'))
 
 
 try:

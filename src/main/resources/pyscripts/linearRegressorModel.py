@@ -79,7 +79,7 @@ def regressor(loaded_dataset):
     r2_score_value = r2_score(y_test, predictions)
 
     #print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": r2_score_value, "confusion_matrix": None}}, sort_keys=True, separators=(',',':'))
+    return json.dumps({"status": "success", "data": {"accuracy": r2_score_value}}, sort_keys=True, separators=(',',':'))
 
 try:
     getArguments(sys.argv[1:])
