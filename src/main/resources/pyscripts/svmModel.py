@@ -82,8 +82,10 @@ def getDataset():
         loaded_dataset = datasets.load_iris()
     elif dataset == "breast_cancer":
         loaded_dataset = datasets.load_breast_cancer()
+    elif dataset == "digits":
+        loaded_dataset = datasets.load_digits()
     else:
-        raise Exception('Dataset is not a valid one. Try iris or breast_cancer.')
+        raise Exception('Dataset is not a valid one. Try iris, breast_cancer or digits.')
 
     return loaded_dataset
 

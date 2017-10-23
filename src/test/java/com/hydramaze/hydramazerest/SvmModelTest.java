@@ -29,6 +29,7 @@ public class SvmModelTest {
 
         PythonBusiness pythonBusiness = new PythonBusiness();
         pythonBusiness.startProcessCall(pythonRequest);
+        System.out.println(pythonRequest.toString());
         System.out.println(pythonBusiness.getJsonObjectResult().toString());
     }
 }
