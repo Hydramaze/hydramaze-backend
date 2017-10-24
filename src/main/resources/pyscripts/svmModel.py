@@ -2,7 +2,7 @@ import sys
 import json
 import getopt
 import argumentParser as parser
-#import data_set
+# import data_set
 from sklearn import datasets
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
@@ -16,9 +16,9 @@ kernel = None
 verbose = None
 C = None
 cache_size = None
-class_weight = None #ignored
+class_weight = None  # ignored
 coef0 = None
-decision_function = None #ignored
+decision_function = None  # ignored
 degree = None
 gamma = None
 max_iter = None
@@ -26,9 +26,10 @@ probability = None
 shrinking = None
 tol = None
 
+
 def getArguments(argv):
     try:
-        optlist, args = getopt.getopt(argv, '', ['dataset=', 'test_size=','kernel=', 'verbose=', 'C=', 'cache_size=',
+        optlist, args = getopt.getopt(argv, '', ['dataset=', 'test_size=', 'kernel=', 'verbose=', 'C=', 'cache_size=',
                                                  'coef0=', 'degree=', 'gamma=', 'max_iter=', 'probability=',
                                                  'shrinking=', 'tol='])
     except getopt.GetoptError:
@@ -40,7 +41,7 @@ def getArguments(argv):
             dataset = arg
         elif opt == "--test_size":
             global test_size
-            test_size = parser.str2tol(arg)
+            test_size = parser.str2float(arg)
         elif opt == "--kernel":
             global kernel
             kernel = parser.str2kernel(arg)
@@ -75,9 +76,10 @@ def getArguments(argv):
             global tol
             tol = parser.str2tol(arg)
 
+
 def getDataset():
     global dataset
-    #load data_set
+    # load data_set
     if dataset == "iris":
         loaded_dataset = datasets.load_iris()
     elif dataset == "breast_cancer":
@@ -89,33 +91,34 @@ def getDataset():
 
     return loaded_dataset
 
+
 def classifier(loaded_dataset):
-    #data_set features
+    # data_set features
     X = loaded_dataset.data
-    #data_set labels
+    # data_set labels
     y = loaded_dataset.target
-    #get class names from dataset
+    # get class names from dataset
     class_names = loaded_dataset.target_names
 
-    #split data_set (tain and test)
-    X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = test_size)
+    # split data_set (tain and test)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
 
-    #declare the classifier
+    # declare the classifier
     my_classifier = SVC(C=C, cache_size=cache_size, class_weight=None, coef0=coef0,
                         degree=degree, gamma=gamma, kernel=kernel, max_iter=max_iter,
                         probability=probability, shrinking=shrinking, tol=tol,
                         verbose=verbose)
 
-    #fit(train) the classifier
+    # fit(train) the classifier
     my_classifier.fit(X_train, y_train)
 
-    #make predictions using the trained classifier
+    # make predictions using the trained classifier
     predictions = my_classifier.predict(X_test)
 
-    #measure the accuracy of the classifier
+    # measure the accuracy of the classifier
     accuracy = accuracy_score(y_test, predictions)
 
-    #get the confusion matrix of about true and predicted values
+    # get the confusion matrix of about true and predicted values
     conf_matrix = confusion_matrix(y_test, predictions)
 
     #print results (the last line will be used as a json return to the java class)
@@ -127,9 +130,4 @@ try:
     print classifier(getDataset())
 
 except Exception as e:
-    print json.dumps({"status": "error", "data": {"error": str(e)}}, sort_keys=True, separators=(',',':'))
-
-
-
-
-
+    print json.dumps({"status": "error", "data": {"error": str(e)}}, sort_keys=True, separators=(',', ':'))
