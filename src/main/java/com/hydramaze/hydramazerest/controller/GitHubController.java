@@ -21,6 +21,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/git")
@@ -68,6 +69,8 @@ public class GitHubController {
 
                     requestUserData(urlContributors);
                 }
+
+                contributors = contributors.stream().distinct().collect(Collectors.toList());
             }
         } catch (Exception exception) {
             LOG.error("[GET] /api/{} - {}", getApiName(), exception);
@@ -77,7 +80,7 @@ public class GitHubController {
     private void requestUserData(String urlContributors) {
         try {
             CloseableHttpClient client = HttpClients.createDefault();
-            HttpGet httpGet = new HttpGet("https://api.github.com/repos/angular/angular/stats/contributors");
+            HttpGet httpGet = new HttpGet(urlContributors);
 
             CloseableHttpResponse response = client.execute(httpGet);
             int code = response.getStatusLine().getStatusCode();
@@ -87,21 +90,8 @@ public class GitHubController {
                 List repData = new Gson().fromJson(stringResponse, List.class);
 
                 for (int i = 0; i < repData.size(); i++ ) {
-                    Boolean flag = false;
-                    Object author = ((LinkedTreeMap) repData.get(i)).get("author");
-
-                    for(int usercount = 0; usercount < contributors.size(); usercount++) {
-                        if (contributors.get(usercount) == author){
-                            flag = true;
-                            break;
-                        }
-                    }
-
-                    if(!flag){
-                        contributors.add(author);
-                    }
+                    contributors.add(((LinkedTreeMap) repData.get(i)).get("author"));
                 }
-
             }
         } catch (Exception exception) {
             LOG.error("[GET] /api/{} - {}", getApiName(), exception);
