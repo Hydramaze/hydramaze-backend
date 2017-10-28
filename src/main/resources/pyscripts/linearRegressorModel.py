@@ -6,6 +6,8 @@ import argumentParser as parser
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import explained_variance_score
 from sklearn.linear_model import LinearRegression
 
 # global variables definition
@@ -30,7 +32,7 @@ def getArguments(argv):
             dataset = arg
         elif opt == "--test_size":
             global test_size
-            test_size = parser.str2float(arg)
+            test_size = parser.str2test_size(arg)
         elif opt == "--fit_intercept":
             global fit_intercept
             fit_intercept = parser.str2fit_intercept(arg)
@@ -68,8 +70,7 @@ def regressor(loaded_dataset):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
 
     # declare the regressor
-    my_regressor = LinearRegression(fit_intercept=fit_intercept, normalize=normalize, copy_X=copy_X,
-                                    n_jobs=n_jobs)
+    my_regressor = LinearRegression(fit_intercept=fit_intercept, normalize=normalize, copy_X=copy_X, n_jobs=n_jobs)
 
     # fit(train) the regressor
     my_regressor.fit(X_train, y_train)
@@ -79,6 +80,12 @@ def regressor(loaded_dataset):
 
     # measure the r2_score of the regressor
     r2_score_value = r2_score(y_test, predictions)
+
+    # measure the mean_squared_error of the regressor #todo add to the returned object
+    mean_squared_error_value = mean_squared_error(y_test, predictions)
+
+    # measure the explained_variance_score of the regressor #todo add to the returned object
+    explained_variance_score_value = explained_variance_score(y_test, predictions)
 
     # print results (the last line will be used as a json return to the java class)
     return json.dumps({"status": "success", "data": {"accuracy": r2_score_value}}, sort_keys=True, separators=(',', ':'))

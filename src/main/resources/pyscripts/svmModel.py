@@ -7,6 +7,7 @@ from sklearn import datasets
 from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import average_precision
 from sklearn.svm import SVC
 
 # global variables definition
@@ -41,7 +42,7 @@ def getArguments(argv):
             dataset = arg
         elif opt == "--test_size":
             global test_size
-            test_size = parser.str2float(arg)
+            test_size = parser.str2test_size(arg)
         elif opt == "--kernel":
             global kernel
             kernel = parser.str2kernel(arg)
@@ -120,6 +121,9 @@ def classifier(loaded_dataset):
 
     # get the confusion matrix of about true and predicted values
     conf_matrix = confusion_matrix(y_test, predictions)
+
+    # measure the accuracy of the classifier #todo add to the returned object
+    average_precision_value = average_precision(y_test, predictions)
 
     #print results (the last line will be used as a json return to the java class)
     return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion-matrix": {"class_names": class_names.tolist(),"matrix": conf_matrix.tolist()}}}, sort_keys=True, separators=(',',':'))

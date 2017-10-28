@@ -11,17 +11,12 @@ X = loaded_dataset.data
 #data_set labels
 y = loaded_dataset.target
 
-#get class names from dataset
-class_names = loaded_dataset.target_names
-
 #split data_set (tain and test)
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = %test_size%)
 
 #declare the classifier
-my_classifier = SVC(C=%C%, cache_size=%cache_size%, coef0=%coef0%,
-                    degree=%degree%, gamma=%gamma%, kernel="%kernel%", max_iter=%max_iter%,
-                    probability=%probability%, shrinking=%shrinking%,
-                    tol=%tol%, verbose=%verbose%)
+my_classifier = SVC(C=%C%, cache_size=%cache_size%, coef0=%coef0%, degree=%degree%, gamma=%gamma%, kernel="%kernel%",
+                    max_iter=%max_iter%, probability=%probability%, shrinking=%shrinking%, tol=%tol%, verbose=%verbose%)
 
 #fit(train) the classifier
 my_classifier.fit(X_train, y_train)
@@ -32,5 +27,5 @@ predictions = my_classifier.predict(X_test)
 #measure the accuracy of the classifier
 accuracy = accuracy_score(y_test, predictions)
 
-#print results (the last line will be used as a json return to the java class)
+#print results
 print "accuracy:", accuracy

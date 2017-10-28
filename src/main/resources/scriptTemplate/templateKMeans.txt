@@ -1,0 +1,31 @@
+from sklearn import datasets
+from sklearn.cross_validation import train_test_split
+from sklearn.metrics import homogeneity_score
+from sklearn.cluster import KMeans
+
+loaded_dataset = datasets.load_%dataset%()
+
+X = loaded_dataset.data
+
+#data_set labels
+y = loaded_dataset.target
+
+#split data_set (tain and test)
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = %test_size%)
+
+#declare the classifier
+k_means = KMeans(n_clusters=%n_clusters%, init=%init%, n_init=%n_init%, max_iter=%max_iter%, tol=%tol%,
+                        precompute_distances=%precompute_distances%, verbose=%verbose%, copy_x=%copy_x%,
+                        n_jobs=%n_jobs%, algorithm=%algorithm%)
+
+#fit(train) the clustering algorithm
+k_means.fit(X_train)
+
+#make predictions using the trained cluster
+predictions = k_means.predict(X_test)
+
+# measure the homogeneity_score of the cluster
+homogeneity = homogeneity_score(y_test, predictions)
+
+#print results
+print "homogeneity:", homogeneity

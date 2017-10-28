@@ -7,6 +7,9 @@ from sklearn import datasets
 from sklearn.cross_validation import train_test_split
 from sklearn.cluster import KMeans
 from sklearn.metrics import homogeneity_score
+from sklearn.metrics import v_measure_score
+from sklearn.metrics import completeness_score
+
 
 # global variables definition
 dataset = None
@@ -26,9 +29,8 @@ algorithm = None
 def getArguments(argv):
     try:
         optlist, args = getopt.getopt(argv, '',
-                                      ['dataset=', 'test_size=', 'n_clusters=', 'init=', "n_init=", 'max_iter=',
-                                       'tol=', 'precompute_distances=', 'verbose=', 'copy_x=', 'n_jobs=',
-                                       'algorithm='])
+                                      ['dataset=', 'test_size=', 'n_clusters=', 'init=', "n_init=", 'max_iter=','tol=',
+                                       'precompute_distances=', 'verbose=', 'copy_x=', 'n_jobs=', 'algorithm='])
     except getopt.GetoptError:
         print 'Error when converting arguments.'
         sys.exit(2)
@@ -39,7 +41,7 @@ def getArguments(argv):
 
         elif opt == "--test_size":
             global test_size
-            test_size = parser.str2float(arg)
+            test_size = parser.str2test_size(arg)
 
         elif opt == "--n_clusters":
             global n_clusters
@@ -67,7 +69,7 @@ def getArguments(argv):
 
         elif opt == "--verbose":
             global verbose
-            verbose = parser.str2int(arg)  # todo change this
+            verbose = parser.str2kMeans_verbose(arg)
 
         elif opt == "--copy_x":
             global copy_x
@@ -96,7 +98,7 @@ def getDataset():
     elif dataset == "boston":
         loaded_dataset = datasets.load_boston()
     else:
-        raise Exception('Dataset is not a valid one. Try iris, breast_cancer or digits.')
+        raise Exception('Dataset is not a valid one. Try iris, breast_cancer, digits, diabetes or boston.')
 
     return loaded_dataset
 
@@ -106,8 +108,6 @@ def clustering(loaded_dataset):
     X = loaded_dataset.data
     # data_set labels
     y = loaded_dataset.target
-    # get class names from dataset
-    # class_names = loaded_dataset.target_names
 
     # split data_set (tain and test)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
@@ -120,14 +120,21 @@ def clustering(loaded_dataset):
     # fit(train) the classifier
     k_means.fit(X_train)
 
-    # make predictions using the trained classifier
+    # make predictions using the trained cluster
     predictions = k_means.predict(X_test)
 
-    # measure the accuracy of the classifier
-    accuracy = homogeneity_score(y_test, predictions)
+    # measure the homogeneity_score of the cluster
+    homogeneity = homogeneity_score(y_test, predictions)
+
+    # measure the homogeneity_score of the cluster #TODO add to the returned object
+    v_measure = v_measure_score(y_test, predictions)
+
+    # measure the homogeneity_score of the cluster #TODO add to the returned object
+    completeness = completeness_score(y_test, predictions)
+
 
     # print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": accuracy, "confusion_matrix": None}}, sort_keys=True, separators=(',', ':'))
+    return json.dumps({"status": "success", "data": {"accuracy": homogeneity}}, sort_keys=True, separators=(',', ':'))
 
 
 try:

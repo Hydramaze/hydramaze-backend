@@ -1,0 +1,29 @@
+from sklearn import datasets
+from sklearn.cross_validation import train_test_split
+from sklearn.metrics import r2_score
+from sklearn.linear_model import LinearRegression
+
+loaded_dataset = datasets.load_%dataset%()
+
+X = loaded_dataset.data
+
+#data_set labels
+y = loaded_dataset.target
+
+#split data_set (tain and test)
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = %test_size%)
+
+# declare the regressor
+my_regressor = LinearRegression(fit_intercept=%fit_intercept%, normalize=%normalize%, copy_X=%copy_X%, n_jobs=%n_jobs%)
+
+# fit(train) the regressor
+my_regressor.fit(X_train, y_train)
+
+# make predictions using the trained regressor
+predictions = my_regressor.predict(X_test)
+
+# measure the r2_score of the regressor
+r2_score_value = r2_score(y_test, predictions)
+
+#print results
+print "r2_score:", accuracy

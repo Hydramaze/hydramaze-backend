@@ -39,6 +39,23 @@ def str2float(value):
 
 
 """
+***************** General usage ***************** 
+"""
+# @Param value string to be converted to test_size
+# @return a valid test_size value, raises ArgumentTypeError if isn't parseble
+def str2test_size(value):
+    try:
+        test_size = str2float(value)
+        if (test_size >= 0.1 and test_size <= 0.9):
+            return test_size
+        else:
+            raise argparse.ArgumentTypeError('test_size value expected. Must be a flot between 0.1 and 0.9')
+    except:
+        raise argparse.ArgumentTypeError('test_size value expected. Must be a flot between 0.1 and 0.9')
+
+
+
+"""
 ***************** SVC parameters types argument parser ***************** 
 """
 
@@ -283,3 +300,11 @@ def str2algorithm(value):
         return value
     else:
         raise argparse.ArgumentTypeError('algorithm value expected. Must be full, elkan or auto')
+
+# @Param value string to be converted to kMeans_verbose
+# @return a valid kMeans_verbose value, raises ArgumentTypeError if isn't parseble
+def str2kMeans_verbose(value):
+    try:
+        str2int(value)
+    except:
+        raise argparse.ArgumentTypeError('kMeans_verbose value expected. Must be an integer')
