@@ -15,7 +15,7 @@ import java.util.List;
 public class ParameterService implements IParameterService{
 
     @Autowired
-    IParameterDAO parameterDAO;
+    private IParameterDAO parameterDAO;
 
     @Override
     public Parameter getParameterById(Integer id) {

@@ -2,12 +2,10 @@ package com.hydramaze.hydramazerest.controller;
 
 import com.hydramaze.hydramazerest.model.Algorithm;
 import com.hydramaze.hydramazerest.model.DataSet;
+import com.hydramaze.hydramazerest.model.Exercise;
 import com.hydramaze.hydramazerest.model.Parameter;
 import com.hydramaze.hydramazerest.pojo.ParameterPojo;
-import com.hydramaze.hydramazerest.service.IAlgorithmExecuterService;
-import com.hydramaze.hydramazerest.service.IAlgorithmService;
-import com.hydramaze.hydramazerest.service.IDataSetService;
-import com.hydramaze.hydramazerest.service.IParameterService;
+import com.hydramaze.hydramazerest.service.*;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +38,9 @@ public class AlgorithmController {
 
     @Autowired
     private IAlgorithmExecuterService algorithmExecuterService;
+
+    @Autowired
+    private IExerciseService exerciseService;
 
     private String getApiName() {
         return "algorithm";
@@ -115,6 +116,28 @@ public class AlgorithmController {
                     .body(new InputStreamResource(is));
         } catch (final Exception exception){
             LOG.error("[POST] /api/{} - {}", getApiName(), exception);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/exercises", method = RequestMethod.GET)
+    public ResponseEntity getAlgorithmsListWithExercise() {
+        try{
+            List<Algorithm> response = exerciseService.getAlgorithmsListWithExercise();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (final Exception exception){
+            LOG.error("[GET] /api/{} - {}", getApiName(), exception);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/{id}/exercise", method = RequestMethod.GET)
+    public ResponseEntity getAlgorithmsExercises(@PathVariable Integer id) {
+        try{
+            List<Exercise> response = exerciseService.getExerciseListByAlgorithmId(id);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (final Exception exception){
+            LOG.error("[GET] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

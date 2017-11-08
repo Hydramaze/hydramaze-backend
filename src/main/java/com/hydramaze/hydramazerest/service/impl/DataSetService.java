@@ -12,7 +12,7 @@ import java.util.List;
 public class DataSetService implements IDataSetService {
 
     @Autowired
-    IDataSetDAO dataSetDAO;
+    private IDataSetDAO dataSetDAO;
 
     @Override
     public List<DataSet> getDataSetsByAlgorithmId(Integer id) {
