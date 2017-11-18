@@ -101,7 +101,7 @@ def classifier(loaded_dataset):
     class_names = loaded_dataset.target_names
 
     # split data_set (tain and test)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1-test_size)
 
     # declare the classifier
     my_classifier = SVC(C=C, cache_size=cache_size, class_weight=None, coef0=coef0,

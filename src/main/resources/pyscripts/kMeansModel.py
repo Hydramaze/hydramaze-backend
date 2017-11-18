@@ -110,7 +110,7 @@ def clustering(loaded_dataset):
     y = loaded_dataset.target
 
     # split data_set (tain and test)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1-test_size)
 
     # declare the classifier
     k_means = KMeans(n_clusters=n_clusters, init=init, n_init=n_init, max_iter=max_iter, tol=tol,

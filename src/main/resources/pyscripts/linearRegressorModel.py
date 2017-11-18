@@ -67,7 +67,7 @@ def regressor(loaded_dataset):
     y = loaded_dataset.target
 
     # split data_set (tain and test)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=1-test_size)
 
     # declare the regressor
     my_regressor = LinearRegression(fit_intercept=fit_intercept, normalize=normalize, copy_X=copy_X, n_jobs=n_jobs)
