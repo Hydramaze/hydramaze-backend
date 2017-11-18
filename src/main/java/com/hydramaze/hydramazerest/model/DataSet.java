@@ -35,7 +35,7 @@ public class DataSet {
     @NotNull
     private String pythonDataSetName;
 
-    @ElementCollection
+    @ManyToMany
     private List<Reference> references;
 
     public Integer getId() {

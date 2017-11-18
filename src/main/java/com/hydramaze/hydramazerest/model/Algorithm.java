@@ -47,14 +47,14 @@ public class Algorithm {
     private String templateName;
 
     @JsonIgnore
-    @ElementCollection
+    @ManyToMany
     private List<Parameter> parameterList;
 
     @JsonIgnore
-    @ElementCollection
+    @ManyToMany
     private List<DataSet> dataSetList;
 
-    @ElementCollection
+    @ManyToMany
     private List<Reference> references;
 
     public Integer getId() {

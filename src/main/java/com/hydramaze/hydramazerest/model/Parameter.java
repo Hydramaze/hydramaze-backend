@@ -50,7 +50,7 @@ public class Parameter {
     @ElementCollection
     private List<String> listData;
 
-    @ElementCollection
+    @ManyToMany
     private List<Reference> references;
 
     private Double minValue;
