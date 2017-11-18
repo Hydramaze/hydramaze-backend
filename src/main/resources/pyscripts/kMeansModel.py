@@ -126,15 +126,15 @@ def clustering(loaded_dataset):
     # measure the homogeneity_score of the cluster
     homogeneity = homogeneity_score(y_test, predictions)
 
-    # measure the homogeneity_score of the cluster #TODO add to the returned object
+    # measure the v_measure_score of the cluster #TODO add to the returned object
     v_measure = v_measure_score(y_test, predictions)
 
-    # measure the homogeneity_score of the cluster #TODO add to the returned object
+    # measure the completeness_score of the cluster #TODO add to the returned object
     completeness = completeness_score(y_test, predictions)
 
 
     # print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": homogeneity}}, sort_keys=True, separators=(',', ':'))
+    return json.dumps({"status": "success", "data": {"accuracy": v_measure}}, sort_keys=True, separators=(',', ':'))
 
 
 try:
