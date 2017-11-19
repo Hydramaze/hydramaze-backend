@@ -88,7 +88,7 @@ def regressor(loaded_dataset):
     explained_variance_score_value = explained_variance_score(y_test, predictions)
 
     # print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": r2_score_value}}, sort_keys=True, separators=(',', ':'))
+    return json.dumps({"status": "success", "data": {"accuracy": {"name": "R2 Score","value": r2_score_value}}}, sort_keys=True, separators=(',', ':'))
 
 
 try:
