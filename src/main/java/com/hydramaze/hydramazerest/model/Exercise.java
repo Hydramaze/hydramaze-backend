@@ -41,7 +41,7 @@ public class Exercise {
 
     private String hint;
 
-    @ElementCollection
+    @ManyToMany
     private List<Reference> references;
 
     public Integer getId() {
