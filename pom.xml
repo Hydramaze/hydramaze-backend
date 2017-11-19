@@ -5,11 +5,11 @@
 
 	<groupId>com.hydramaze</groupId>
 	<artifactId>hydramaze-rest</artifactId>
+    <packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
 
 	<name>hydramaze-rest</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Hydramaze Backend Project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -29,6 +29,20 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- marked the embedded servlet container as provided -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>

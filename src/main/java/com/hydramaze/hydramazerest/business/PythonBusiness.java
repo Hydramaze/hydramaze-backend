@@ -26,6 +26,7 @@ public class PythonBusiness {
         try {
             processBuilder(pythonRequest.getCommand());
             long startTime = System.nanoTime();
+            //processBuilder.redirectErrorStream(true);
             process = processBuilder.start();
 
             if(!process.waitFor(PROCESS_TIMEOUT, TimeUnit.SECONDS)) {
@@ -68,15 +69,22 @@ public class PythonBusiness {
             BufferedReader input = new BufferedReader(
                     new InputStreamReader(process.getInputStream(), "UTF-8"));
 
-            String last = null;
-            String line;
+            String line = input.readLine();
+            String last = line;
 
-            while ((line = input.readLine()) != null) {
-                last = line;
+            while (line != null) {
+                line = input.readLine();
+                if (line != null) {
+                    last = line;
+                }
             }
 
             try {
-                jsonObjectResult = new JSONObject(last);
+                if (last != null) {
+                    jsonObjectResult = new JSONObject(last);
+                } else {
+                    throw new JSONException("Parse Error");
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

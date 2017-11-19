@@ -24,6 +24,7 @@ public class HydramazeRestApplication extends SpringBootServletInitializer {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**")
+						//.allowedOrigins("http://hydramaze.com")
 						.allowedOrigins("*")
 						.allowedMethods("GET", "POST");
 			}
