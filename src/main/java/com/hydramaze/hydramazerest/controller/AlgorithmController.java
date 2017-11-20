@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/algorithm")
@@ -94,7 +96,7 @@ public class AlgorithmController {
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (final Exception exception){
             LOG.error("[POST] /api/{} - {}", getApiName(), exception);
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createErrorResponse(exception), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -116,7 +118,7 @@ public class AlgorithmController {
                     .body(new InputStreamResource(is));
         } catch (final Exception exception){
             LOG.error("[POST] /api/{} - {}", getApiName(), exception);
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(createErrorResponse(exception), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -140,6 +142,13 @@ public class AlgorithmController {
             LOG.error("[GET] /api/{} - {}", getApiName(), exception);
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private Map createErrorResponse(Exception exception) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", exception.getMessage());
+
+        return map;
     }
 
 }
