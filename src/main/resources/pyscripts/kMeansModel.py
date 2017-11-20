@@ -57,7 +57,7 @@ def getArguments(argv):
 
         elif opt == "--max_iter":
             global max_iter
-            max_iter = parser.str2max_iter(arg)
+            max_iter = parser.str2kMeansmax_iter(arg)
 
         elif opt == "--tol":
             global tol
