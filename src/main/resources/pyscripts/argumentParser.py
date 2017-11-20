@@ -308,3 +308,16 @@ def str2kMeans_verbose(value):
         str2int(value)
     except:
         raise argparse.ArgumentTypeError('kMeans_verbose value expected. Must be an integer')
+
+
+# @Param value string to be converted to max_iter for Kmeans
+# @return a valid max_iter value, raises ArgumentTypeError if isn't parseble
+def str2kMeansmax_iter(value):
+    try:
+        max_iter = str2int(value)
+        if (max_iter > 0):
+            return max_iter
+        else:
+            raise argparse.ArgumentTypeError('max_iter value expected. Must be an positive integer.')
+    except:
+        raise argparse.ArgumentTypeError('max_iter value expected. Must be an positive integer.')
