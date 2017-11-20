@@ -39,6 +39,10 @@ public class Exercise {
     @NotNull
     private String solution;
 
+    @NotBlank
+    @NotNull
+    private String validation;
+
     private String hint;
 
     @ManyToMany
@@ -98,6 +102,14 @@ public class Exercise {
 
     public void setSolution(String solution) {
         this.solution = solution;
+    }
+
+    public String getValidation() {
+        return validation;
+    }
+
+    public void setValidation(String validation) {
+        this.validation = validation;
     }
 
     public String getHint() {
