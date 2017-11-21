@@ -64,7 +64,7 @@ public class AlgorithmExecuterService implements IAlgorithmExecuterService {
         validateTestSize(testSize);
         validateParameters(algorithm, pojoList);
 
-        Path path = Paths.get(URLDecoder.decode(getClass().getClassLoader().getResource("scriptTemplate").getFile() + "/" + algorithm.getTemplateName(), "UTF-8"));
+        Path path = Paths.get(getClass().getClassLoader().getResource("scriptTemplate" + "/" + algorithm.getTemplateName()).toURI());
         String content = new String(Files.readAllBytes(path));
         content = content.replace("%dataset%", dataSet.getPythonDataSetName());
         content = content.replace("%test_size%", testSize.toString());
