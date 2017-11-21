@@ -4,6 +4,12 @@ from sklearn.cross_validation import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.svm import SVC
 
+def getFloatOrStringValue(s):
+    try:
+        return float(s)
+    except ValueError:
+        return s
+
 loaded_dataset = datasets.load_%dataset%()
 
 X = loaded_dataset.data
@@ -15,7 +21,7 @@ y = loaded_dataset.target
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 1-%test_size%)
 
 #declare the classifier
-my_classifier = SVC(C=%C%, cache_size=%cache_size%, coef0=%coef0%, degree=%degree%, gamma=%gamma%, kernel="%kernel%",
+my_classifier = SVC(C=%C%, cache_size=%cache_size%, coef0=%coef0%, degree=%degree%, gamma=getFloatOrStringValue("%gamma%"), kernel="%kernel%",
                     max_iter=%max_iter%, probability=%probability%, shrinking=%shrinking%, tol=%tol%, verbose=%verbose%)
 
 #fit(train) the classifier

@@ -134,7 +134,7 @@ def clustering(loaded_dataset):
 
 
     # print results (the last line will be used as a json return to the java class)
-    return json.dumps({"status": "success", "data": {"accuracy": {"name": "V Measure Score","value": v_measure}}}, sort_keys=True, separators=(',', ':'))
+    return json.dumps({"status": "success", "data": {"accuracy": {"name": "V Measure Score","value": v_measure, "reference": "http://scikit-learn.org/stable/modules/generated/sklearn.metrics.v_measure_score.html#sklearn-metrics-v-measure-score"}}}, sort_keys=True, separators=(',', ':'))
 
 
 try:
